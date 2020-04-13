@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import HomePage from "./pages/HomePage";
-import SignIn from "./pages/SignIn";
+import HomePage from "./Pages/HomePage";
+import SignIn from "./Pages/SignIn";
 import "./App.scss";
 
 class App extends React.Component {
