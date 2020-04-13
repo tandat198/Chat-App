@@ -2,8 +2,13 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getGroupsStart, deleteGroupStart, getUsersInGroupStart } from "../../redux/group/group.actions";
+<<<<<<< HEAD
 import FormModal from "../../components/formmodal";
 import ListModal from "../../components/listmodal";
+=======
+import FormModal from "../../components/FormModal/index";
+import ListModal from "../../components/ListModal/index";
+>>>>>>> parent of 905b24e... change file name
 import plus from "../../assets/icons/plus.svg";
 import spinner from "../../assets/icons/spinner.svg";
 import more from "../../assets/icons/more.svg";
