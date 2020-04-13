@@ -2,8 +2,8 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getGroupsStart, deleteGroupStart, getUsersInGroupStart } from "../../redux/group/group.actions";
-import FormModal from '../../Components/FormModal/index'
-import ListModal from '../../Components/ListModal/index'
+import FormModal from '~/src/Components/FormModal'
+import ListModal from '~/src/Components/ListModal'
 import plus from "../../assets/icons/plus.svg";
 import spinner from "../../assets/icons/spinner.svg";
 import more from '../../assets/icons/more.svg'
