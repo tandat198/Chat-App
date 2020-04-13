@@ -4,7 +4,7 @@ import { createGroupStart, addUserStart } from "../../redux/group/group.actions"
 import spinner from "../../assets/icons/spinner.svg";
 import "./style.scss";
 
-class Modal extends PureComponent {
+class FormModal extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -75,4 +75,4 @@ const mapDispatchToProps = dispatch => ({
     addUser: (groupId, email) => dispatch(addUserStart({ groupId, email }))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Modal);
+export default connect(mapStateToProps, mapDispatchToProps)(FormModal);
