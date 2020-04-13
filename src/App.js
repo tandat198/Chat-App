@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import HomePage from './Pages/HomePage/index'
-import SignIn from "./Pages/SignIn";
+import SignIn from "./Pages/SignIn/index";
 import "./App.scss";
 
 class App extends React.Component {
