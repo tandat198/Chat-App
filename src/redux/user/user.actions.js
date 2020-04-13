@@ -32,8 +32,8 @@ export const signUpFailure = err => ({
 
 export const signOutStart = () => ({
     type: userActionTypes.SIGN_OUT_START
-})
+});
 
 export const signOutSuccess = () => ({
     type: userActionTypes.SIGN_OUT_SUCCESS
-})
+});

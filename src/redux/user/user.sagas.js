@@ -13,7 +13,7 @@ export function* signIn({ payload }) {
             localStorage.setItem("token", token);
             yield put(signInSuccess());
         } else {
-            throw new Error(res.data.error)
+            throw new Error(res.data.error);
         }
     } catch (err) {
         console.log(err);
@@ -34,8 +34,8 @@ export function* signUp({ payload }) {
 }
 
 export function* signout() {
-    localStorage.clear('token', 'user');
-    yield put(signOutSuccess())
+    localStorage.clear("token", "user");
+    yield put(signOutSuccess());
 }
 
 export function* onSignIn() {
@@ -47,7 +47,7 @@ export function* onSignUp() {
 }
 
 export function* onSignOut() {
-    yield takeLatest(userActionTypes.SIGN_OUT_START, signout)
+    yield takeLatest(userActionTypes.SIGN_OUT_START, signout);
 }
 
 export function* userSagas() {

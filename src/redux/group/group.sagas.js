@@ -23,28 +23,28 @@ export function* getGroups() {
 
 export function* getUserInGroup({ payload }) {
     try {
-        const { users } = yield call(api.get, `/groups/${payload}/getUsers`)
-        yield put(getUsersInGroupSuccess(users))
+        const { users } = yield call(api.get, `/groups/${payload}/getUsers`);
+        yield put(getUsersInGroupSuccess(users));
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 
 export function* deleteGroup({ payload }) {
     try {
         const { group, message } = yield call(api.delete, `/groups/${payload}`);
-        yield put(deleteGroupSuccess(group._id, message))
+        yield put(deleteGroupSuccess(group._id, message));
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
 export function* addUser({ payload }) {
     try {
-        const { user } = yield call(api.post, '/groups/addUser', payload)
-        yield put(addUserSuccess(user))
+        const { user } = yield call(api.post, "/groups/addUser", payload);
+        yield put(addUserSuccess(user));
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
@@ -61,19 +61,13 @@ export function* onCreateGroup() {
 }
 
 export function* onDeleteGroup() {
-    yield takeLatest(groupActionTypes.DELETE_GROUP_START, deleteGroup)
+    yield takeLatest(groupActionTypes.DELETE_GROUP_START, deleteGroup);
 }
 
 export function* onAddUser() {
-    yield takeLatest(groupActionTypes.ADD_USER_START, addUser)
+    yield takeLatest(groupActionTypes.ADD_USER_START, addUser);
 }
 
 export function* groupSagas() {
-    yield all([
-        fork(onGetGroup),
-        fork(onGetUsersInGroup),
-        fork(onCreateGroup),
-        fork(onDeleteGroup),
-        fork(onAddUser)
-    ]);
+    yield all([fork(onGetGroup), fork(onGetUsersInGroup), fork(onCreateGroup), fork(onDeleteGroup), fork(onAddUser)]);
 }

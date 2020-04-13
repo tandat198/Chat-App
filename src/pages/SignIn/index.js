@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import { withRouter, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withRouter, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 import { signInStart, signUpStart } from "../../redux/user/user.actions";
 import "./style.scss";
 
@@ -51,7 +51,15 @@ const SignIn = React.memo(props => {
                         <div className='form-item'>
                             <label htmlFor='email'>Email</label>
                             <div className='control-input'>
-                                <input defaultValue='tandat198@gmail.com' placeholder='Enter your email' type='email' ref={email} name='email' id='email' className='input' />
+                                <input
+                                    defaultValue='tandat198@gmail.com'
+                                    placeholder='Enter your email'
+                                    type='email'
+                                    ref={email}
+                                    name='email'
+                                    id='email'
+                                    className='input'
+                                />
                             </div>
                         </div>
                         <div className='form-item'>

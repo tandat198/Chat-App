@@ -121,68 +121,68 @@
         justify-content: space-between;
         align-items: center;
 
-            .group-name {
-                font-size: 2.4rem;
-                text-align: center;
-                position: relative;
-                left: 1%;
+        .group-name {
+            font-size: 2.4rem;
+            text-align: center;
+            position: relative;
+            left: 1%;
+        }
+        .option-wrapper {
+            width: 5%;
+            height: 100%;
+            position: relative;
+
+            .three-dot {
+                background: rgb(255, 255, 255);
+                box-sizing: border-box;
+                height: 68%;
+                padding: 0.7rem;
+                border-radius: 50%;
+                border: 1px solid rgb(143, 143, 143);
+                position: absolute;
+                right: 20%;
+                top: 18%;
             }
-            .option-wrapper {
-                width: 5%;
-                height: 100%;
-                position: relative;
-
-                .three-dot {
-                    background: rgb(255, 255, 255);
-                    box-sizing: border-box;
-                    height: 68%;
-                    padding: 0.7rem;
-                    border-radius: 50%;
-                    border: 1px solid rgb(143, 143, 143);
-                    position: absolute;
-                    right: 20%;
-                    top: 18%;
-                }
-                .option {
-                    background: rgb(255, 255, 255);
-                    width: 15vw;
-                    position: absolute;
-                    top: 100%;
-                    right: 20%;
+            .option {
+                background: rgb(255, 255, 255);
+                width: 15vw;
+                position: absolute;
+                top: 100%;
+                right: 20%;
+                display: flex;
+                flex-direction: column;
+                border: 1px solid rgb(180, 180, 180);
+                border-top-color: rgb(255, 177, 33);
+                border-radius: 3px;
+                button {
+                    border: none;
+                    height: 7vh;
+                    width: 100%;
+                    padding-left: 10%;
+                    outline: none;
+                    background: none;
                     display: flex;
-                    flex-direction: column;
-                    border: 1px solid rgb(180, 180, 180);
-                    border-top-color: rgb(255, 177, 33);
-                    border-radius: 3px;
-                    button {
-                        border: none;
-                        height: 7vh;
-                        width: 100%;
-                        padding-left: 10%;
-                        outline: none;
-                        background: none;
-                        display: flex;
-                        align-items: center;
-                        justify-content: flex-start;
+                    align-items: center;
+                    justify-content: flex-start;
 
-                        &:hover {
-                            background: rgb(219, 219, 219);
-                        }
+                    &:hover {
+                        background: rgb(219, 219, 219);
+                    }
 
-                        span:first-child {
-                            margin-right: 7%;
-                        }
+                    span:first-child {
+                        margin-right: 7%;
+                    }
 
-                        span:last-child {
-                            display: contents;
+                    span:last-child {
+                        display: contents;
 
-                            img {
-                                width: 8%;
-                            }
+                        img {
+                            width: 8%;
                         }
                     }
                 }
             }
+        }
     }
 }
 
@@ -207,63 +207,6 @@ ul {
         height: 25vh;
         border-radius: 3px;
         display: flex;
-        // form {
-        //     width: 80%;
-        //     height: 100%;
-        //     display: flex;
-        //     flex-direction: column;
-        //     justify-content: space-around;
-        //     padding-left: 4.3rem;
-        //     label {
-        //         color: #fff;
-        //         font-size: 2rem;
-        //         display: inline-block;
-        //     }
-        //     .input-control {
-        //         height: 20%;
-        //         input[type="text"] {
-        //             letter-spacing: 0.1rem;
-        //             font-size: 1.6rem;
-        //             width: 100%;
-        //             height: 100%;
-        //             border-radius: 3px;
-        //             outline: none;
-        //             border: none;
-        //             padding-left: 1rem;
-        //         }
-        //     }
-
-        //     .btn-wrapper {
-        //         display: flex;
-        //         justify-content: space-around;
-        //         height: 18%;
-        //         button {
-        //             width: 30%;
-        //             height: 100%;
-        //             font-size: 1.6rem;
-        //             border-radius: 3px;
-
-        //             &[type="submit"] {
-        //                 background: #0282d9;
-        //                 color: #fff;
-        //                 border: 1px solid #fff;
-        //                 &:hover {
-        //                     background: #fff;
-        //                     color: #0282d9;
-        //                 }
-        //             }
-
-        //             &[type="button"] {
-        //                 border: none;
-        //                 color: #6b6b6b;
-        //                 background: #fff;
-        //                 &:hover {
-        //                     background: #b8b8b8;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
     }
     .spinner {
         position: absolute;
@@ -294,7 +237,6 @@ ul {
         z-index: 15;
     }
 }
-
 
 @keyframes moveLeftToRight {
     0% {

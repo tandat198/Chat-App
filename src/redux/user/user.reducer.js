@@ -23,15 +23,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
             };
         case userActionTypes.SIGN_OUT_START:
             return {
-                ...state,
-
-            }
+                ...state
+            };
         case userActionTypes.SIGN_OUT_SUCCESS:
             return {
                 ...state,
                 currentUser: null,
                 isAuthenticated: false
-            }
+            };
         default:
             return state;
     }
