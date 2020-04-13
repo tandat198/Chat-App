@@ -6,8 +6,6 @@ const INITIAL_STATE = {
     error: null
 };
 
-const token = localStorage.getItem("token");
-
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case userActionTypes.SIGN_IN_SUCCESS:
@@ -23,6 +21,17 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 isAuthenticated: true,
                 error: null
             };
+        case userActionTypes.SIGN_OUT_START:
+            return {
+                ...state,
+
+            }
+        case userActionTypes.SIGN_OUT_SUCCESS:
+            return {
+                ...state,
+                currentUser: null,
+                isAuthenticated: false
+            }
         default:
             return state;
     }

@@ -2,11 +2,16 @@ import axios from "axios";
 
 export const token = localStorage.getItem("token");
 export const api = axios.create({
-    baseURL: "http://localhost:5000/api",
+    baseURL: "https://young-falls-17697.herokuapp.com/api",
     headers: {
-        "Content-Type": "application/json",
-        token: token ? token : ""
+        "Content-Type": "application/json"
     }
+});
+
+api.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('token');
+    config.headers.token = token ? token : '';
+    return config
 });
 
 if (token) axios.defaults.headers["token"] = token;
@@ -15,7 +20,6 @@ const callApi = () => {
     return {
         async get(endpoint) {
             try {
-                console.log(token);
                 const res = await api.get(endpoint);
                 return res.data;
             } catch (error) {
@@ -26,6 +30,15 @@ const callApi = () => {
         async post(endpoint, body) {
             try {
                 const res = await api.post(endpoint, body);
+                return res.data;
+            } catch (error) {
+                return error.response;
+            }
+        },
+
+        async delete(endpoint) {
+            try {
+                const res = await api.delete(endpoint);
                 return res.data;
             } catch (error) {
                 return error.response;
