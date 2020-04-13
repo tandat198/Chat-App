@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { signInStart, signUpStart } from "../../redux/user/user.actions";
 import "./style.scss";
 
-const SignIn = React.memo(props => {
+const SignIn = props => {
     const { isAuthenticated } = props;
 
     // SIGN IN
@@ -139,7 +139,7 @@ const SignIn = React.memo(props => {
             )}
         </React.Fragment>
     );
-});
+};
 
 const mapStateToProps = state => ({
     isAuthenticated: state.user.isAuthenticated
