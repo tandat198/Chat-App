@@ -106,20 +106,68 @@
     overflow: auto;
     position: relative;
 
-    input {
+    form {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
         position: fixed;
-        bottom: 20px;
-        left: 0;
+        bottom: 2%;
+        height: 6.5%;
         width: 80%;
+
+        input {
+            font-size: 1.8rem;
+            box-sizing: border-box;
+            width: 85%;
+            height: 100%;
+            padding-left: 2%;
+            border-radius: 6px;
+            border: 1px solid #000;
+
+            &:focus {
+                outline: none;
+                border-color: rgb(0, 47, 134);
+            }
+        }
+        button {
+            font-size: 2rem;
+            box-sizing: border-box;
+            width: 10%;
+            height: 100%;
+            outline: none;
+            border-radius: 6px;
+            border: none;
+            background: #fff;
+            border: 1px solid rgb(0, 47, 134);
+            color: black;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            img {
+                width: 25%;
+            }
+
+            &:hover {
+                background: rgb(0, 47, 134);
+                color: #fff;
+            }
+        }
     }
 
     .top-chat {
         height: 7vh;
+        width: 80%;
         border-bottom: 1px solid #000;
         position: relative;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 20;
 
         .group-name {
             font-size: 2.4rem;
@@ -183,6 +231,42 @@
                 }
             }
         }
+    }
+
+    .messages-container {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        height: 84vh;
+        width: 100%;
+        position: absolute;
+        bottom: 9vh;
+        right: 0;
+        padding: 3%;
+        margin: 0;
+        overflow-y: scroll;
+        li {
+            font-size: 2rem;
+            border-radius: 2.5rem;
+            padding: 0.5rem 1.2rem;
+            color: #fff;
+            &:not(:last-child) {
+                margin-bottom: 2.5%;
+            }
+        }
+        .blue {
+            align-self: flex-end;
+            background: #348cff;
+            color: #fff;
+        }
+        .gray {
+            align-self: flex-start;
+            background: rgb(192, 192, 192);
+            color: #000;
+        }
+    }
+    .flex-end {
+        justify-content: flex-end;
     }
 }
 

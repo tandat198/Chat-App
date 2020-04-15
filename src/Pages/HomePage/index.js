@@ -1,9 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import io from "socket.io-client";
 import { connect } from "react-redux";
-import { getGroupsStart, deleteGroupStart, getUsersInGroupStart } from "../../redux/group/group.actions";
+import { getGroupsStart, deleteGroupStart, getUsersInGroupStart, getMessagesOfGroupStart, addNewMessageStart } from "../../redux/group/group.actions";
 import FormModal from "../../Components/FormModal";
 import ListModal from "../../Components/ListModal";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 import plus from "../../assets/icons/plus.svg";
 import spinner from "../../assets/icons/spinner.svg";
 import more from "../../assets/icons/more.svg";
@@ -11,9 +13,11 @@ import user from "../../assets/icons/user.svg";
 import group from "../../assets/icons/group.svg";
 import gear from "../../assets/icons/gear.svg";
 import logout from "../../assets/icons/logout.svg";
+import paperPlane from "../../assets/icons/paper-plane.svg";
 import { signOutStart } from "../../redux/user/user.actions";
 import "./style.scss";
 
+const socket = io.connect("https://young-falls-17697.herokuapp.com", { autoConnect: true });
 class HomePage extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -38,9 +42,9 @@ class HomePage extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.state);
-        console.log(prevState);
-        console.log(prevProps);
+        socket.on("connect", function () {
+            socket.on("sendMsgFromServer", function (data) {});
+        });
         if (this.state.msg !== prevState.msg) {
             switch (this.state.msg) {
                 case "Delete group successfully":
@@ -70,7 +74,8 @@ class HomePage extends React.PureComponent {
 
     render() {
         const { openCreateGroupModal, openAddUserModal, openUserListModal, groupActive, openOption, isChanged } = this.state;
-        const { loading, groups, users, deleteGroupReq, getUsersReq, signOutReq } = this.props;
+        const { loading, groups, users, messages, deleteGroupReq, getUsersReq, getMessagesReq, signOutReq, addNewMsg } = this.props;
+        const currentUser = JSON.parse(localStorage.getItem("user"));
 
         const toggleGroupModal = () => {
             this.setState(state => ({ openCreateGroupModal: !state.openCreateGroupModal }));
@@ -90,6 +95,9 @@ class HomePage extends React.PureComponent {
 
         const setActive = group => {
             this.setState({ groupActive: group, isChanged: true });
+            getMessagesReq(group._id);
+            const sendData = { room: group };
+            socket.emit("room", sendData);
         };
 
         const deleteGroup = id => {
@@ -114,7 +122,19 @@ class HomePage extends React.PureComponent {
             });
         };
 
-        if (loading === "main") return <img className='main-loading' alt='Loading...' src={spinner} />;
+        const sendMsg = async e => {
+            e.preventDefault();
+            addNewMsg(e.target.firstChild.value, groupActive);
+            e.target.firstChild.value = null;
+        };
+
+        const scroll = () => {
+            console.log("scroll");
+            var chatBox = document.getElementById("chat-box");
+            chatBox.scrollTop = chatBox.scrollHeight;
+        };
+
+        if (loading === "main") return <LoadingSpinner />;
         return (
             <React.Fragment>
                 <div className='main'>
@@ -186,6 +206,19 @@ class HomePage extends React.PureComponent {
                                 )}
                             </div>
                         </div>
+                        <ul onChange={scroll} id='chat-box' className={`messages-container ${messages.length < 8 && "flex-end"}`}>
+                            {messages.map(message => (
+                                <li className={`${currentUser._id === message.senderId ? "blue" : "gray"}`} key={message._id}>
+                                    {message.text}
+                                </li>
+                            ))}
+                        </ul>
+                        <form onSubmit={sendMsg} className='chat-bar'>
+                            <input type='text' name='chatText' id='' placeholder='Enter your message' />
+                            <button type='submit'>
+                                <span>Send</span> <img src={paperPlane} alt='send' />
+                            </button>
+                        </form>
                     </div>
                 </div>
                 {openCreateGroupModal && <FormModal field='group' toggleModal={toggleGroupModal} />}
@@ -197,8 +230,10 @@ class HomePage extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+    currentUser: state.user.currentUser,
     groups: state.group.groups,
     users: state.group.users,
+    messages: state.group.messages,
     loading: state.group.loading,
     msg: state.group.msg,
     isAuthenticated: state.user.isAuthenticated
@@ -206,9 +241,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getGroups: () => dispatch(getGroupsStart()),
+    getMessagesReq: groupId => dispatch(getMessagesOfGroupStart(groupId)),
     deleteGroupReq: id => dispatch(deleteGroupStart(id)),
     getUsersReq: id => dispatch(getUsersInGroupStart(id)),
-    signOutReq: () => dispatch(signOutStart())
+    signOutReq: () => dispatch(signOutStart()),
+    addNewMsg: (msg, room) => dispatch(addNewMessageStart(msg, room))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HomePage));

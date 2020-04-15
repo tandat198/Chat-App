@@ -53,3 +53,26 @@ export const addUserSuccess = user => ({
     type: groupActionTypes.ADD_USER_SUCCESS,
     payload: user
 });
+
+export const getMessagesOfGroupStart = groupId => ({
+    type: groupActionTypes.GET_MESSAGES_OF_GROUP_START,
+    payload: groupId
+});
+
+export const getMessagesOfGroupSuccess = messages => ({
+    type: groupActionTypes.GET_MESSAGES_OF_GROUP_SUCCESS,
+    payload: messages
+});
+
+export const addNewMessageStart = (msg, room) => ({
+    type: groupActionTypes.ADD_NEW_MESSAGE_START,
+    payload: {
+        msg,
+        room
+    }
+});
+
+export const addNewMessageSuccess = msg => ({
+    type: groupActionTypes.ADD_NEW_MESSAGE_SUCCESS,
+    payload: msg
+});

@@ -3,6 +3,7 @@ import groupActionTypes from "./group.types";
 const INITIAL_STATE = {
     groups: [],
     users: [],
+    messages: [],
     error: null,
     loading: "",
     msg: null
@@ -69,6 +70,20 @@ export default (state = INITIAL_STATE, action) => {
                 users: state.users.concat(action.payload),
                 loading: "",
                 msg: "add new successfully"
+            };
+        case groupActionTypes.GET_MESSAGES_OF_GROUP_START:
+            return {
+                ...state
+            };
+        case groupActionTypes.GET_MESSAGES_OF_GROUP_SUCCESS:
+            return {
+                ...state,
+                messages: action.payload
+            };
+        case groupActionTypes.ADD_NEW_MESSAGE_SUCCESS:
+            return {
+                ...state,
+                messages: state.messages.concat(action.payload)
             };
         default:
             return state;

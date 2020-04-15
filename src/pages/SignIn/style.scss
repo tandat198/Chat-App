@@ -221,3 +221,11 @@ $color-black: #000;
         transform: translateX(0);
     }
 }
+
+.main-loading {
+    width: 7%;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+}

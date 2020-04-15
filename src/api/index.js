@@ -1,5 +1,5 @@
 import axios from "axios";
-
+//https://young-falls-17697.herokuapp.com/api
 export const token = localStorage.getItem("token");
 export const api = axios.create({
     baseURL: "https://young-falls-17697.herokuapp.com/api",
@@ -9,9 +9,9 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('token');
-    config.headers.token = token ? token : '';
-    return config
+    const token = localStorage.getItem("token");
+    config.headers.token = token ? token : "";
+    return config;
 });
 
 if (token) axios.defaults.headers["token"] = token;

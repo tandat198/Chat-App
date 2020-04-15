@@ -2,10 +2,11 @@ import React, { useState, useRef } from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { signInStart, signUpStart } from "../../redux/user/user.actions";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 import "./style.scss";
 
 const SignIn = props => {
-    const { isAuthenticated } = props;
+    const { isAuthenticated, msg } = props;
 
     // SIGN IN
     const email = useRef(null);
@@ -84,6 +85,7 @@ const SignIn = props => {
                     </div>
                 </div>
             </div>
+            {msg === "logging in" && <LoadingSpinner />}
             {displayForm && (
                 <div className='signup'>
                     <div className='signup-container'>
@@ -142,7 +144,8 @@ const SignIn = props => {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.user.isAuthenticated
+    isAuthenticated: state.user.isAuthenticated,
+    msg: state.user.msg
 });
 
 const mapDispatchToProps = dispatch => ({

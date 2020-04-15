@@ -11,7 +11,7 @@ export function* signIn({ payload }) {
             const { token, user } = res;
             localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("token", token);
-            yield put(signInSuccess());
+            yield put(signInSuccess(user));
         } else {
             throw new Error(res.data.error);
         }

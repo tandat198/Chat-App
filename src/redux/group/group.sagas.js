@@ -1,7 +1,10 @@
 import { takeEvery, takeLatest, call, put, fork, all } from "redux-saga/effects";
+import io from "socket.io-client";
 import groupActionTypes from "./group.types";
 import api from "../../api";
-import { createGroupSuccess, getGroupSuccess, deleteGroupSuccess, addUserSuccess, getUsersInGroupSuccess } from "./group.actions";
+import { createGroupSuccess, getGroupSuccess, deleteGroupSuccess, addUserSuccess, getUsersInGroupSuccess, getMessagesOfGroupSuccess } from "./group.actions";
+
+const socket = io.connect("https://young-falls-17697.herokuapp.com/api", { autoConnect: true });
 
 export function* createGroup({ payload }) {
     try {
@@ -48,12 +51,45 @@ export function* addUser({ payload }) {
     }
 }
 
+export function* addNewMsg({ payload }) {
+    try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const sendData = payload;
+        sendData.user = user;
+        yield socket.emit("room", sendData);
+
+        yield socket.on("connect", function* () {
+            console.log(sendData);
+            yield socket.on("sendMsgFromServer", function* (data) {
+                console.log(sendData);
+                const datas = yield data;
+                console.log(datas);
+            });
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export function* getMessagesOfGroup({ payload }) {
+    try {
+        const { messages } = yield call(api.get, `/groupMessages/?groupId=${payload}`);
+        yield put(getMessagesOfGroupSuccess(messages));
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export function* onGetGroup() {
-    yield takeEvery(groupActionTypes.GET_GROUPS_START, getGroups);
+    yield takeLatest(groupActionTypes.GET_GROUPS_START, getGroups);
 }
 
 export function* onGetUsersInGroup() {
     yield takeEvery(groupActionTypes.GET_USERS_IN_GROUP_START, getUserInGroup);
+}
+
+export function* onGetMessagesOfGroup() {
+    yield takeLatest(groupActionTypes.GET_MESSAGES_OF_GROUP_START, getMessagesOfGroup);
 }
 
 export function* onCreateGroup() {
@@ -68,6 +104,18 @@ export function* onAddUser() {
     yield takeLatest(groupActionTypes.ADD_USER_START, addUser);
 }
 
+export function* onAddMsg() {
+    yield takeEvery(groupActionTypes.ADD_NEW_MESSAGE_START, addNewMsg);
+}
+
 export function* groupSagas() {
-    yield all([fork(onGetGroup), fork(onGetUsersInGroup), fork(onCreateGroup), fork(onDeleteGroup), fork(onAddUser)]);
+    yield all([
+        fork(onGetGroup),
+        fork(onGetUsersInGroup),
+        fork(onGetMessagesOfGroup),
+        fork(onCreateGroup),
+        fork(onDeleteGroup),
+        fork(onAddUser),
+        fork(onAddMsg)
+    ]);
 }
