@@ -86,7 +86,6 @@ export default (state = INITIAL_STATE, action) => {
                 error: action.payload
             };
         case groupActionTypes.GET_MESSAGES_OF_GROUP_START:
-            console.log(action.payload);
             return {
                 ...state,
                 msg: "",
