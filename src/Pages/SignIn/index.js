@@ -88,6 +88,7 @@ const SignIn = props => {
             {msg === "logging in" && <LoadingSpinner />}
             {displayForm && (
                 <div className='signup'>
+                    {/* {msg === "logging in" && <LoadingSpinner />} */}
                     <div className='signup-container'>
                         <span onClick={toggleForm} className='close-btn'>
                             &times;

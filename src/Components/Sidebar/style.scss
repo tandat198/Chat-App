@@ -1,0 +1,66 @@
+.side-bar {
+    animation: moveLeftToRight 0.5s;
+    width: 20%;
+    height: 100%;
+    background: rgb(0, 47, 134);
+    overflow: auto;
+    position: relative;
+
+    .top-side-bar {
+        height: 7vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .title {
+            font-size: 2.3rem;
+            color: #fff;
+        }
+        .create-new-group {
+            cursor: pointer;
+            width: 14%;
+            background: none;
+            color: #fff;
+            outline: none;
+            box-shadow: none;
+            border: none;
+            font-size: 2rem;
+            text-align: right;
+            position: relative;
+            &:hover {
+                color: rgb(0, 47, 134);
+            }
+            .plus-icon {
+                width: 100%;
+                height: auto;
+            }
+            .tooltiptext {
+                font-size: 1.6rem;
+                position: absolute;
+                top: 100%;
+                width: 11rem;
+                padding: 1rem 0;
+            }
+        }
+    }
+
+    .group-list {
+        padding: 5% 0;
+        .group-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 5%;
+            padding: 2%;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+
+            &:not(:last-child) {
+                margin-bottom: 2%;
+            }
+        }
+        .highlight {
+            background: rgb(255, 177, 33);
+        }
+    }
+}

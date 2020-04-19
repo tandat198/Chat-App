@@ -30,73 +30,6 @@
     z-index: 3;
 }
 
-.side-bar {
-    animation: moveLeftToRight 0.5s;
-    width: 20%;
-    height: 100%;
-    background: rgb(0, 47, 134);
-    overflow: auto;
-    position: relative;
-
-    .top-side-bar {
-        height: 7vh;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-
-        .title {
-            font-size: 2.3rem;
-            color: #fff;
-        }
-        .create-new-group {
-            cursor: pointer;
-            width: 14%;
-            background: none;
-            color: #fff;
-            outline: none;
-            box-shadow: none;
-            border: none;
-            font-size: 2rem;
-            text-align: right;
-            position: relative;
-            &:hover {
-                color: rgb(0, 47, 134);
-            }
-            .plus-icon {
-                width: 100%;
-                height: auto;
-            }
-            .tooltiptext {
-                font-size: 1.6rem;
-                position: absolute;
-                top: 100%;
-                width: 11rem;
-                padding: 1rem 0;
-            }
-        }
-    }
-
-    .group-list {
-        padding: 5% 0;
-        .group-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 0 5%;
-            padding: 2%;
-            color: #fff;
-            font-size: 1.8rem;
-            cursor: pointer;
-
-            &:not(:last-child) {
-                margin-bottom: 2%;
-            }
-        }
-        .highlight {
-            background: rgb(255, 177, 33);
-        }
-    }
-}
-
 .chat-container {
     flex: auto;
     width: 80%;
@@ -113,8 +46,9 @@
         align-items: center;
         position: fixed;
         bottom: 2%;
+        right: 1.5%;
         height: 6.5%;
-        width: 80%;
+        width: 77%;
 
         input {
             font-size: 1.8rem;
@@ -137,10 +71,9 @@
             height: 100%;
             outline: none;
             border-radius: 6px;
-            border: none;
-            background: #fff;
-            border: 1px solid rgb(0, 47, 134);
-            color: black;
+            border: 1px solid black;
+            background: rgb(0, 47, 134);
+            color: #fff;
             display: flex;
             flex-direction: row;
             justify-content: space-around;
@@ -150,8 +83,9 @@
             }
 
             &:hover {
-                background: rgb(0, 47, 134);
-                color: #fff;
+                background: #fff;
+                color: rgb(0, 47, 134);
+                border-color: rgb(0, 47, 134);
             }
         }
     }
@@ -190,6 +124,13 @@
                 position: absolute;
                 right: 20%;
                 top: 18%;
+                &:hover {
+                    background: rgb(143, 143, 143);
+                }
+            }
+
+            .active {
+                background: rgb(219, 219, 219);
             }
             .option {
                 background: rgb(255, 255, 255);
@@ -233,38 +174,6 @@
         }
     }
 
-    .messages-container {
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        height: 84vh;
-        width: 100%;
-        position: absolute;
-        bottom: 9vh;
-        right: 0;
-        padding: 3%;
-        margin: 0;
-        overflow-y: scroll;
-        li {
-            font-size: 2rem;
-            border-radius: 2.5rem;
-            padding: 0.5rem 1.2rem;
-            color: #fff;
-            &:not(:last-child) {
-                margin-bottom: 2.5%;
-            }
-        }
-        .blue {
-            align-self: flex-end;
-            background: #348cff;
-            color: #fff;
-        }
-        .gray {
-            align-self: flex-start;
-            background: rgb(192, 192, 192);
-            color: #000;
-        }
-    }
     .flex-end {
         justify-content: flex-end;
     }
@@ -284,6 +193,7 @@ ul {
     justify-content: center;
     background: rgb(0, 0, 0);
     background: rgba(0, 0, 0, 0.5);
+    z-index: 25;
     .modal-content {
         position: relative;
         top: 20%;

@@ -11,7 +11,7 @@ class ListModal extends PureComponent {
                 <div className='modal-content'>
                     <ul className='user-list'>
                         {users.map(user => (
-                            <li className='user-item' key={user._id}>
+                            <li className='user-item' key={user.id}>
                                 {user.name}
                             </li>
                         ))}

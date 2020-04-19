@@ -19,6 +19,10 @@
         font-size: 2rem;
         background: #0282d9;
         border: none;
+
+        &:hover {
+            background: #0163a3;
+        }
     }
 }
 

@@ -14,8 +14,33 @@
             font-size: 2rem;
             display: inline-block;
         }
+
+        .select-wrapper {
+            width: 46%;
+            font-size: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #0282d9;
+            select {
+                font-size: 1.6rem;
+                height: 100%;
+                border-radius: 3px;
+                option {
+                    height: 100%;
+                }
+            }
+        }
+
         .input-control {
             height: 20%;
+
+            .error {
+                color: red;
+                font-size: 1.4rem;
+                margin-left: 1rem;
+            }
+
             input[type="text"] {
                 letter-spacing: 0.1rem;
                 font-size: 1.6rem;
@@ -45,6 +70,7 @@
                     &:hover {
                         background: #fff;
                         color: #0282d9;
+                        border-color: #0282d9;
                     }
                 }
 

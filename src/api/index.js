@@ -1,5 +1,4 @@
 import axios from "axios";
-//https://young-falls-17697.herokuapp.com/api
 export const token = localStorage.getItem("token");
 export const api = axios.create({
     baseURL: "https://young-falls-17697.herokuapp.com/api",
@@ -23,7 +22,7 @@ const callApi = () => {
                 const res = await api.get(endpoint);
                 return res.data;
             } catch (error) {
-                return error.response;
+                return error.response.data;
             }
         },
 
@@ -32,7 +31,7 @@ const callApi = () => {
                 const res = await api.post(endpoint, body);
                 return res.data;
             } catch (error) {
-                return error.response;
+                return error.response.data;
             }
         },
 
@@ -41,7 +40,7 @@ const callApi = () => {
                 const res = await api.delete(endpoint);
                 return res.data;
             } catch (error) {
-                return error.response;
+                return error.response.data;
             }
         }
     };
