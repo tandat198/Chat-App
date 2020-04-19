@@ -16,6 +16,7 @@
             font-size: 2.3rem;
             color: #fff;
         }
+
         .create-new-group {
             cursor: pointer;
             width: 14%;
@@ -24,16 +25,19 @@
             outline: none;
             box-shadow: none;
             border: none;
-            font-size: 2rem;
+            font-size: 2.4rem;
             text-align: right;
             position: relative;
+
             &:hover {
                 color: rgb(0, 47, 134);
             }
+
             .plus-icon {
                 width: 100%;
                 height: auto;
             }
+
             .tooltiptext {
                 font-size: 1.6rem;
                 position: absolute;
@@ -52,7 +56,7 @@
             margin: 0 5%;
             padding: 2%;
             color: #fff;
-            font-size: 1.8rem;
+            font-size: 2rem;
             cursor: pointer;
 
             &:not(:last-child) {

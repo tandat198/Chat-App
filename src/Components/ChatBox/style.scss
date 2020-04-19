@@ -30,3 +30,27 @@
         color: #000;
     }
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+
+    &:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    .tooltiptext {
+        box-sizing: border-box;
+        font-size: 1.8rem;
+        visibility: hidden;
+        width: 8rem;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 0.5rem 0;
+        position: absolute;
+        right: 7%;
+        z-index: 15;
+    }
+}

@@ -11,6 +11,7 @@ const Sidebar = ({ groupActive, setActive, toggleGroupModal }) => {
     const loading = useSelector(state => state.group.loading);
 
     const deleteGroup = id => {
+        setActive({});
         dispatch(deleteGroupStart(id));
     };
 

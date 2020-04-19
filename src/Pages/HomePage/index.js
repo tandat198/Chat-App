@@ -101,8 +101,8 @@ class HomePage extends React.PureComponent {
         };
 
         const setActive = group => {
-            if (group.id !== groupActive.id) {
-                this.setState({ groupActive: group, isChanged: true });
+            this.setState({ groupActive: group, isChanged: true });
+            if (group.id && group.id !== groupActive.id) {
                 getMessagesReq(group.id, -15);
                 const sendData = { room: group };
                 socket.emit("room", sendData);
@@ -135,7 +135,6 @@ class HomePage extends React.PureComponent {
                 msg: e.target.firstChild.value
             };
             socket.emit("room", sentData);
-            // addNewMsg(e.target.firstChild.value, groupActive);
             e.target.firstChild.value = null;
         };
 
@@ -149,6 +148,7 @@ class HomePage extends React.PureComponent {
                             <div className='overlay'></div>
                         </>
                     )}
+
                     <Sidebar groupActive={groupActive} setActive={setActive} toggleGroupModal={toggleGroupModal} />
                     <div className='chat-container'>
                         <div id='text'></div>
@@ -190,10 +190,10 @@ class HomePage extends React.PureComponent {
                                 )}
                             </div>
                         </div>
-                        {messages.length > 0 && <ChatBox groupId={groupActive.id} />}
+                        {messages.length > 0 && groupActive.id && <ChatBox groupId={groupActive.id} />}
                         {groupActive.id && (
                             <form onSubmit={sendMsg} className='chat-bar'>
-                                <input type='text' name='chatText' id='' placeholder='Enter your message' />
+                                <input autoCorrect='off' autoComplete='off' type='text' name='chatText' id='' placeholder='Enter your message' />
                                 <button type='submit'>
                                     <span>Send</span> <img src={paperPlane} alt='send' />
                                 </button>

@@ -30,6 +30,15 @@
     z-index: 3;
 }
 
+.menu-btn {
+    width: 5%;
+    height: auto;
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    z-index: 32;
+}
+
 .chat-container {
     flex: auto;
     width: 80%;
@@ -205,30 +214,6 @@ ul {
     .spinner {
         position: absolute;
         height: 15%;
-    }
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-
-    &:hover .tooltiptext {
-        visibility: visible;
-    }
-
-    .tooltiptext {
-        box-sizing: border-box;
-        font-size: 1.8rem;
-        visibility: hidden;
-        width: 8rem;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 0.5rem 0;
-        position: absolute;
-        right: 7%;
-        z-index: 15;
     }
 }
 
