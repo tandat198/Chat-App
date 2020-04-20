@@ -96,7 +96,8 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 messages: action.payload.messages.concat(state.messages),
                 index: action.payload.index,
-                error: null
+                error: null,
+                msg: action.payload.lastIndex === -15 ? "first load" : "next load"
             };
         case groupActionTypes.ADD_NEW_MESSAGE_SUCCESS:
             return {
@@ -107,7 +108,8 @@ export default (state = INITIAL_STATE, action) => {
         case groupActionTypes.ADD_MESSAGE_TO_STORE:
             return {
                 ...state,
-                messages: state.messages.concat(action.payload)
+                messages: state.messages.concat(action.payload),
+                msg: "added to store"
             };
         default:
             return state;

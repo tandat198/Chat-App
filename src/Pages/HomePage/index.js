@@ -190,7 +190,7 @@ class HomePage extends React.PureComponent {
                                 )}
                             </div>
                         </div>
-                        {messages.length > 0 && groupActive.id && <ChatBox groupId={groupActive.id} />}
+                        {groupActive.id && messages.length > 0 && <ChatBox groupId={groupActive.id} />}
                         {groupActive.id && (
                             <form onSubmit={sendMsg} className='chat-bar'>
                                 <input autoCorrect='off' autoComplete='off' type='text' name='chatText' id='' placeholder='Enter your message' />

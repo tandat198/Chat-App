@@ -64,11 +64,12 @@ export const getMessagesOfGroupStart = (groupId, index) => ({
     payload: { groupId, listIndex: index }
 });
 
-export const getMessagesOfGroupSuccess = (messages, index) => ({
+export const getMessagesOfGroupSuccess = (messages, index, listIndex) => ({
     type: groupActionTypes.GET_MESSAGES_OF_GROUP_SUCCESS,
     payload: {
         messages,
-        index
+        index,
+        lastIndex: listIndex
     }
 });
 

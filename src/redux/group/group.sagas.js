@@ -4,6 +4,7 @@ import api from "../../api";
 import {
     createGroupSuccess,
     getGroupSuccess,
+    getGroupsFailure,
     deleteGroupSuccess,
     addUserSuccess,
     getUsersInGroupSuccess,
@@ -12,29 +13,26 @@ import {
 } from "./group.actions";
 
 export function* createGroup({ payload }) {
-    try {
-        const { group } = yield call(api.post, "/groups", payload);
-        yield put(createGroupSuccess(group));
-    } catch (err) {
-        console.log(err);
+    const res = yield call(api.post, "/groups", payload);
+
+    if (res.group) {
+        yield put(createGroupSuccess(res.group));
     }
 }
 
 export function* getGroups() {
-    try {
-        const { groups } = yield call(api.get, "/groups");
-        yield put(getGroupSuccess(groups));
-    } catch (err) {
-        console.log(err);
+    const res = yield call(api.get, "/groups");
+    if (res.groups) {
+        yield put(getGroupSuccess(res.groups));
+    } else {
+        yield put(getGroupsFailure(res.error));
     }
 }
 
 export function* getUserInGroup({ payload }) {
-    try {
-        const { users } = yield call(api.get, `/groups/${payload}/getUsers`);
-        yield put(getUsersInGroupSuccess(users));
-    } catch (error) {
-        console.log(error);
+    const res = yield call(api.get, `/groups/${payload}/getUsers`);
+    if (res.users) {
+        yield put(getUsersInGroupSuccess(res.users));
     }
 }
 
@@ -57,7 +55,7 @@ export function* getMessagesOfGroup({ payload: { listIndex, groupId } }) {
     try {
         if (listIndex) {
             const { messages, index } = yield call(api.get, `/groupMessages/?groupId=${groupId}&index=${listIndex}`);
-            yield put(getMessagesOfGroupSuccess(messages, index));
+            yield put(getMessagesOfGroupSuccess(messages, index, listIndex));
         }
     } catch (err) {
         console.log(err);
