@@ -51,7 +51,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 currentUser: null,
                 isAuthenticated: false
             };
-        case userActionTypes.UPLOAD_AVATAR_SUCCESS:
+        case userActionTypes.UPLOAD_PROFILE_SUCCESS:
             return {
                 ...state,
                 currentUser: { ...state.currentUser, profilePhoto: action.payload }
