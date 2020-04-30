@@ -1,7 +1,8 @@
 import axios from "axios";
 export const token = localStorage.getItem("token");
+
 export const api = axios.create({
-    baseURL: "https://young-falls-17697.herokuapp.com/api",
+    baseURL: "https://chat-app-datng.herokuapp.com/api",
     headers: {
         "Content-Type": "application/json"
     }
@@ -22,16 +23,16 @@ const callApi = () => {
                 const res = await api.get(endpoint);
                 return res.data;
             } catch (error) {
-                return error.response.data;
+                return error.response;
             }
         },
 
-        async post(endpoint, body) {
+        async post(endpoint, body, contentType) {
             try {
-                const res = await api.post(endpoint, body);
+                const res = await api.post(endpoint, body, contentType === "formData" && { headers: { "content-type": "multipart/form-data" } });
                 return res.data;
             } catch (error) {
-                return error.response.data;
+                return error.response;
             }
         },
 
@@ -40,7 +41,7 @@ const callApi = () => {
                 const res = await api.delete(endpoint);
                 return res.data;
             } catch (error) {
-                return error.response.data;
+                return error.response;
             }
         }
     };

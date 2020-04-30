@@ -2,8 +2,7 @@
     animation: moveLeftToRight 0.5s;
     width: 20%;
     height: 100%;
-    background: rgb(0, 47, 134);
-    overflow: auto;
+    background: #071e3d;
     position: relative;
 
     .top-side-bar {
@@ -17,21 +16,29 @@
             color: #fff;
         }
 
-        .create-new-group {
-            cursor: pointer;
-            width: 14%;
+        .create-new-group,
+        .back-to-home {
             background: none;
-            color: #fff;
             outline: none;
             box-shadow: none;
             border: none;
             font-size: 2.4rem;
             text-align: right;
             position: relative;
+        }
 
-            &:hover {
-                color: rgb(0, 47, 134);
+        .back-to-home {
+            width: 10%;
+
+            .tooltiptext {
+                left: 0;
+                top: 100%;
+                width: 12rem;
             }
+        }
+
+        .create-new-group {
+            width: 14%;
 
             .plus-icon {
                 width: 100%;
@@ -39,11 +46,11 @@
             }
 
             .tooltiptext {
-                font-size: 1.6rem;
                 position: absolute;
                 top: 100%;
+                right: 0;
                 width: 11rem;
-                padding: 1rem 0;
+                padding: 0.7rem 0;
             }
         }
     }
@@ -62,9 +69,36 @@
             &:not(:last-child) {
                 margin-bottom: 2%;
             }
+
+            .tooltiptext {
+                width: 7rem;
+            }
         }
         .highlight {
-            background: rgb(255, 177, 33);
+            background: #278ea5;
+        }
+    }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    
+        &:hover .tooltiptext {
+            visibility: visible;
+        }
+    
+        .tooltiptext {
+            box-sizing: border-box;
+            font-size: 1.6rem;
+            visibility: hidden;
+            background-color: rgb(129, 129, 129);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5rem 0;
+            position: absolute;
+            right: 7%;
+            z-index: 15;
         }
     }
 }

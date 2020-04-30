@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import spinner from "../../assets/icons/spinner.svg";
+import LoadingSpinner from "../LoadingSpinner";
 import "./style.scss";
 
 class ListModal extends PureComponent {
@@ -20,7 +20,7 @@ class ListModal extends PureComponent {
                         Close
                     </button>
                 </div>
-                {loading === "modal" && <img alt='Loading...' className='spinner center' src={spinner} />}
+                {loading === "modal" && <LoadingSpinner />}
             </div>
         );
     }

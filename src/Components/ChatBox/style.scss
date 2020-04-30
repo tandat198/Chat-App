@@ -2,14 +2,14 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    height: 84vh;
+    height: 80vh;
     width: 100%;
     position: absolute;
-    bottom: 9vh;
+    bottom: 10vh;
     right: 0;
-    padding: 3%;
-    margin: 0;
-    overflow-y: scroll;
+    padding: 2% 3%;
+    margin-bottom: 2rem;
+    overflow: auto;
     li {
         max-width: 45%;
         word-break: break-word;
@@ -33,26 +33,6 @@
     }
 }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-
-    &:hover .tooltiptext {
-        visibility: visible;
-    }
-
-    .tooltiptext {
-        box-sizing: border-box;
-        font-size: 1.8rem;
-        visibility: hidden;
-        width: 8rem;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 0.5rem 0;
-        position: absolute;
-        right: 7%;
-        z-index: 15;
-    }
+svg.main-loading {
+    width: 10%;
 }

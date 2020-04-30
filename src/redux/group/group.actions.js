@@ -73,9 +73,10 @@ export const getMessagesOfGroupSuccess = (messages, index, listIndex) => ({
     }
 });
 
-export const addNewMessageStart = (msg, room) => ({
+export const addNewMessageStart = (user, room, msg) => ({
     type: groupActionTypes.ADD_NEW_MESSAGE_START,
     payload: {
+        user,
         msg,
         room
     }
@@ -90,3 +91,8 @@ export const addMsgToStore = msg => ({
     type: groupActionTypes.ADD_MESSAGE_TO_STORE,
     payload: msg
 });
+
+export const joinRoomStart = room => ({
+    type: groupActionTypes.JOIN_ROOM_START,
+    payload: { room }
+})

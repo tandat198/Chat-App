@@ -6,8 +6,7 @@ import LoadingSpinner from "../../Components/LoadingSpinner";
 import "./style.scss";
 
 const SignIn = props => {
-    const { isAuthenticated, msg } = props;
-
+    const { isAuthenticated, msg, error } = props;
     // SIGN IN
     const email = useRef(null);
     const password = useRef(null);
@@ -62,6 +61,7 @@ const SignIn = props => {
                                     className='input'
                                 />
                             </div>
+                            <span className='msg'>{error.includes('does not exist') && 'Email does not exist'}</span>
                         </div>
                         <div className='form-item'>
                             <label htmlFor='password'>Password</label>
@@ -77,6 +77,7 @@ const SignIn = props => {
                                     autoComplete='on'
                                 />
                             </div>
+                            <span className='msg'>{error.includes('does not match') && 'Wrong Password'}</span>
                         </div>
                         <input className='submit-btn' type='submit' value='Sign In' />
                     </form>
@@ -85,10 +86,10 @@ const SignIn = props => {
                     </div>
                 </div>
             </div>
-            {msg === "logging in" && <LoadingSpinner />}
+
+            {msg === "logging in" && <LoadingSpinner width="220px" height="220px" />}
             {displayForm && (
                 <div className='signup'>
-                    {/* {msg === "logging in" && <LoadingSpinner />} */}
                     <div className='signup-container'>
                         <span onClick={toggleForm} className='close-btn'>
                             &times;
@@ -146,7 +147,8 @@ const SignIn = props => {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.user.isAuthenticated,
-    msg: state.user.msg
+    msg: state.user.msg,
+    error: state.user.error
 });
 
 const mapDispatchToProps = dispatch => ({

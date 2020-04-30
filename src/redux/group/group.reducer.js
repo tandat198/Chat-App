@@ -88,7 +88,7 @@ export default (state = INITIAL_STATE, action) => {
         case groupActionTypes.GET_MESSAGES_OF_GROUP_START:
             return {
                 ...state,
-                msg: "",
+                msg: "loading messages",
                 messages: action.payload.listIndex === -15 ? [] : state.messages
             };
         case groupActionTypes.GET_MESSAGES_OF_GROUP_SUCCESS:
@@ -99,9 +99,15 @@ export default (state = INITIAL_STATE, action) => {
                 error: null,
                 msg: action.payload.lastIndex === -15 ? "first load" : "next load"
             };
+        case groupActionTypes.ADD_NEW_MESSAGE_START:
+            return {
+                ...state,
+                msg: ''
+            }
         case groupActionTypes.ADD_NEW_MESSAGE_SUCCESS:
             return {
                 ...state,
+                msg: 'added to store',
                 messages: state.messages.concat(action.payload),
                 error: null
             };

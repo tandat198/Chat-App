@@ -29,3 +29,8 @@
 .center {
     top: 25%;
 }
+
+.modal-content + .main-loading {
+    top: 10%;
+    width: 6%;
+}

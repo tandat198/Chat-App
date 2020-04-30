@@ -1,0 +1,69 @@
+.header {
+    position: sticky;
+    width: 100%;
+    height: 10vh;
+    background: #1f4287;
+    z-index: 10;
+
+    .navbar-container {
+        display: flex;
+        justify-content: space-around;
+
+        a.logo-wrapper {
+            color: #fff;
+            text-align: center;
+            width: 5%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            &:visited {
+                color: #fff;
+            }
+
+            span {
+                flex: 1;
+                font-size: 2.5rem;
+                text-transform: uppercase;
+            }
+        }
+
+        .nav-item {
+            position: relative;
+           
+            .icon {
+                height: 100%;
+                width: 100%;
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                &:hover .tooltiptext {
+                    display: inline-block
+                }
+
+                .tooltiptext {
+                    display: none;
+                    padding: 5%;
+                    width: 7rem;
+                    text-align: center;
+                    position: absolute;
+                    left: 0;
+                    top: 90%;
+                    font-size: 1.8rem;
+                    color: rgb(255, 255, 255);
+                    background: rgb(129, 129, 129);
+                    border-radius: 2px;
+                    z-index: 2;
+                }
+                
+            }
+        }
+       
+    }
+}
+
+a {
+    text-decoration: none;
+}

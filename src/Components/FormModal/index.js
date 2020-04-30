@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { createGroupStart, addUserStart } from "../../redux/group/group.actions";
-import spinner from "../../assets/icons/spinner.svg";
+import LoadingSpinner from "../LoadingSpinner";
 import "./style.scss";
 
 class FormModal extends PureComponent {
@@ -57,14 +57,14 @@ class FormModal extends PureComponent {
                         {field === "group" ? (
                             <label htmlFor='group-name'>Group Name</label>
                         ) : (
-                            <div className='select-wrapper'>
-                                <span>Search for</span>
-                                <select onChange={setOption}>
-                                    <option value='email'>Email</option>
-                                    <option value='name'>Name</option>
-                                </select>
-                            </div>
-                        )}
+                                <div className='select-wrapper'>
+                                    <span>Search for</span>
+                                    <select onChange={setOption}>
+                                        <option value='email'>Email</option>
+                                        <option value='name'>Name</option>
+                                    </select>
+                                </div>
+                            )}
                         <div className='input-control'>
                             <input
                                 onChange={setValue}
@@ -85,7 +85,7 @@ class FormModal extends PureComponent {
                         </div>
                     </form>
                 </div>
-                {loading === "modal" && <img alt='Loading...' className='spinner' src={spinner} />}
+                {loading === "modal" && <LoadingSpinner />}
             </div>
         );
     }

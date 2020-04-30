@@ -1,0 +1,91 @@
+.profile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #071e3d;
+
+    .profile-container {
+        width: 65%;
+
+        .info {
+            width: 100%;
+            height: 75vh;
+            position: relative;
+            margin: 0 auto;
+
+            .cover-photo {
+                width: 80%;
+                height: 100%;
+                margin: 0 auto;
+                display: flex;
+                justify-content: center;
+                img {
+                    width: auto;
+                    height: 100%;
+                }
+            }
+        
+            .profile-photo {
+                width: 28vh;
+                height: 28vh;
+                border-radius: 50%;
+                background: #fff;
+                border: 1px solid black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                left: 50%;
+                bottom: -3%;
+                transform: translateX(-50%);
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    z-index: -2;
+                }
+            }
+        
+            .name {
+                margin-top: 2%;
+                font-size: 3rem;
+                text-align: center;
+            }
+
+            .update-btn {
+                height: 15vh;
+                width: 15%;
+                position: absolute;
+                bottom: 0;
+                left: -15%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .update-profile,.update-cover {
+                    height: 45%;
+                    background: #1f4287;
+                    color: #fff;
+                    border-radius: 2px;
+                    border: none;
+                    box-sizing: border-box;
+                    padding: 2%;
+    
+                    &:hover {
+                        transform: translateY(-4%);
+                        box-shadow: 1px 5px 3px rgb(49, 49, 49);
+                    }
+    
+                    &:active {
+                        transform: translateY(0);
+                        box-shadow: none;
+                    }
+                }
+
+            }
+        }
+    }
+}
