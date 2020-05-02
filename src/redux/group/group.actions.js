@@ -4,9 +4,9 @@ export const getGroupsStart = () => ({
     type: groupActionTypes.GET_GROUPS_START
 });
 
-export const getGroupSuccess = groups => ({
+export const getGroupSuccess = data => ({
     type: groupActionTypes.GET_GROUPS_SUCCESS,
-    payload: groups
+    payload: data
 });
 
 export const getGroupsFailure = err => ({
@@ -19,9 +19,9 @@ export const getUsersInGroupStart = id => ({
     payload: id
 });
 
-export const getUsersInGroupSuccess = users => ({
+export const getUsersInGroupSuccess = data => ({
     type: groupActionTypes.GET_USERS_IN_GROUP_SUCCESS,
-    payload: users
+    payload: data
 });
 
 export const createGroupStart = body => ({
@@ -29,9 +29,9 @@ export const createGroupStart = body => ({
     payload: body
 });
 
-export const createGroupSuccess = group => ({
+export const createGroupSuccess = data => ({
     type: groupActionTypes.CREATE_GROUP_SUCCESS,
-    payload: group
+    payload: data
 });
 
 export const deleteGroupStart = id => ({
@@ -39,9 +39,9 @@ export const deleteGroupStart = id => ({
     payload: id
 });
 
-export const deleteGroupSuccess = (id, msg) => ({
+export const deleteGroupSuccess = data => ({
     type: groupActionTypes.DELETE_GROUP_SUCCESS,
-    payload: { id, msg }
+    payload: data
 });
 
 export const addUserStart = data => ({
@@ -49,9 +49,9 @@ export const addUserStart = data => ({
     payload: data
 });
 
-export const addUserSuccess = user => ({
+export const addUserSuccess = data => ({
     type: groupActionTypes.ADD_USER_SUCCESS,
-    payload: user
+    payload: data
 });
 
 export const addUserFailure = err => ({
@@ -59,18 +59,14 @@ export const addUserFailure = err => ({
     payload: err
 });
 
-export const getMessagesOfGroupStart = (groupId, index) => ({
+export const getMessagesOfGroupStart = (groupId, skip) => ({
     type: groupActionTypes.GET_MESSAGES_OF_GROUP_START,
-    payload: { groupId, listIndex: index }
+    payload: { groupId, skip }
 });
 
-export const getMessagesOfGroupSuccess = (messages, index, listIndex) => ({
+export const getMessagesOfGroupSuccess = data => ({
     type: groupActionTypes.GET_MESSAGES_OF_GROUP_SUCCESS,
-    payload: {
-        messages,
-        index,
-        lastIndex: listIndex
-    }
+    payload: data
 });
 
 export const addNewMessageStart = (user, room, msg) => ({
@@ -84,11 +80,6 @@ export const addNewMessageStart = (user, room, msg) => ({
 
 export const addNewMessageSuccess = msg => ({
     type: groupActionTypes.ADD_NEW_MESSAGE_SUCCESS,
-    payload: msg
-});
-
-export const addMsgToStore = msg => ({
-    type: groupActionTypes.ADD_MESSAGE_TO_STORE,
     payload: msg
 });
 

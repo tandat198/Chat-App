@@ -5,20 +5,6 @@
     position: relative;
 }
 
-.overlay {
-    width: 20%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    background-color: rgba(255,255,255, 0.6);
-
-    svg {
-        width: 30%;
-    }
-}
-
 .menu-btn {
     width: 5%;
     height: auto;

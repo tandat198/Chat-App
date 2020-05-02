@@ -4,6 +4,7 @@ import { deleteGroupStart } from "../../redux/group/group.actions";
 import { Link } from "react-router-dom";
 import plus from "../../assets/icons/plus.svg";
 import "./style.scss";
+import LoadingSpinner from "../LoadingSpinner";
 
 const Sidebar = ({ groupActive, setActive, toggleGroupModal }) => {
     const dispatch = useDispatch();
@@ -33,32 +34,36 @@ const Sidebar = ({ groupActive, setActive, toggleGroupModal }) => {
     )
 
     return (
-        <div className='side-bar' style={{ opacity: loading === "delete" && 0.8 }}>
-            <div className='top-side-bar'>
-                <Link to='/' className='back-to-home tooltip'>
-                    <BackIcon />
-                    <span className='tooltiptext'>Back To Home</span>
-                </Link>
-                <span className='title'>Group List</span>
-                <button onClick={toggleGroupModal} className='create-new-group tooltip'>
-                    <img className='plus-icon' src={plus} alt='Add' />
-                    <span className='tooltiptext'>Create Group</span>
-                </button>
+        <div className='side-bar'>
+            <div className={loading === 'deleting' && "overlay"}></div>
+            {loading === 'deleting' && <LoadingSpinner />}
+            <div className="side-bar-content">
+                <div className='top-side-bar'>
+                    <Link to='/' className='back-to-home tooltip'>
+                        <BackIcon />
+                        <span className='tooltiptext'>Back To Home</span>
+                    </Link>
+                    <span className='title'>Group List</span>
+                    <button onClick={toggleGroupModal} className='create-new-group tooltip'>
+                        <img className='plus-icon' src={plus} alt='Add' />
+                        <span className='tooltiptext'>Create Group</span>
+                    </button>
+                </div>
+                {groups.length > 0 && (
+                    <ul className='group-list'>
+                        {groups.map(({ name, id }) => (
+                            <li className={`group-item ${groupActive.id === id && "highlight"}`} key={id} onClick={() => setActive({ name, id })}>
+                                <span>{name}</span>{" "}
+                                {groupActive.id === id && (
+                                    <div onClick={() => deleteGroup(id)} className='tooltip'>
+                                        &#10005; <div className='tooltiptext'>Delete</div>
+                                    </div>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
-            {groups.length > 0 && (
-                <ul className='group-list'>
-                    {groups.map(({ name, id }) => (
-                        <li className={`group-item ${groupActive.id === id && "highlight"}`} key={id} onClick={() => setActive({ name, id })}>
-                            <span>{name}</span>{" "}
-                            {groupActive.id === id && (
-                                <div onClick={() => deleteGroup(id)} className='tooltip'>
-                                    &#10005; <div className='tooltiptext'>Delete</div>
-                                </div>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            )}
         </div>
     );
 };

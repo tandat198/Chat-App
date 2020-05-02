@@ -1,8 +1,9 @@
 import axios from "axios";
 export const token = localStorage.getItem("token");
+const apiUrl = 'https://chat-app-datng.herokuapp.com'
 
 export const api = axios.create({
-    baseURL: "https://chat-app-datng.herokuapp.com/api",
+    baseURL: `${apiUrl}/api`,
     headers: {
         "Content-Type": "application/json"
     }
@@ -13,8 +14,6 @@ api.interceptors.request.use(function (config) {
     config.headers.token = token ? token : "";
     return config;
 });
-
-if (token) axios.defaults.headers["token"] = token;
 
 const callApi = () => {
     return {

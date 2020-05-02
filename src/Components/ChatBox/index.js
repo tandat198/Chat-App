@@ -4,10 +4,11 @@ import { getMessagesOfGroupStart } from "../../redux/group/group.actions";
 import LoadingSpinner from "../LoadingSpinner";
 import "./style.scss";
 
-const ChatBox = props => {
+const ChatBox = ({ groupId }) => {
     const messages = useSelector(state => state.group.messages);
     const msg = useSelector(state => state.group.msg);
-    const index = useSelector(state => state.group.index);
+    const loading = useSelector(state => state.group.loading)
+    const skip = useSelector(state => state.group.skip);
     const chatBoxRef = useRef(null);
     const [lastScrollHeight, setLastScrollHeight] = useState(0);
     const dispatch = useDispatch();
@@ -15,9 +16,9 @@ const ChatBox = props => {
 
     const scrollToBottom = () => {
         const chatBox = chatBoxRef.current;
-        if (msg === 'added to store' || msg === "first load") {
+        if (msg === 'added messages' || msg === "first time load messages") {
             chatBox.scrollTop = chatBox.scrollHeight;
-        } else if (msg === "next load") {
+        } else if (msg === "next load messages") {
             chatBox.scrollTop = (chatBox.scrollHeight * 9) / 10 - lastScrollHeight;
         }
     };
@@ -25,18 +26,18 @@ const ChatBox = props => {
     useEffect(scrollToBottom, [messages]);
 
     const onScroll = () => {
-        if (chatBoxRef.current.scrollTop === 0 && index) {
-            dispatch(getMessagesOfGroupStart(props.groupId, index));
+        if (chatBoxRef.current.scrollTop === 0 && skip) {
+            dispatch(getMessagesOfGroupStart(groupId, skip));
             setLastScrollHeight(chatBoxRef.current.scrollHeight);
         }
     };
     return (
         <React.Fragment>
-            {msg === "loading messages" && <LoadingSpinner width="200px" height="200px" />}
+            {loading === "loading messages" && <LoadingSpinner width="200px" height="200px" />}
 
             <ul ref={chatBoxRef} onScroll={onScroll} id='chat-box' className={`messages-container ${messages.length < 8 && "flex-end"}`}>
                 {messages.map(message => (
-                    <li className={`${currentUser.id === message.senderId ? "blue" : "gray"}`} key={message.id}>
+                    <li className={`${currentUser.id === message.senderId ? "blue" : "gray"}`} key={message._id}>
                         {message.text}
                     </li>
                 ))}

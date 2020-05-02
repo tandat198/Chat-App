@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     error: null,
     loading: "",
     msg: null,
-    index: -15
+    skip: 0
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -20,7 +20,7 @@ export default (state = INITIAL_STATE, action) => {
         case groupActionTypes.GET_GROUPS_SUCCESS:
             return {
                 ...state,
-                groups: action.payload,
+                groups: action.payload.groups,
                 loading: ""
             };
         case groupActionTypes.GET_USERS_IN_GROUP_START:
@@ -33,7 +33,7 @@ export default (state = INITIAL_STATE, action) => {
         case groupActionTypes.GET_USERS_IN_GROUP_SUCCESS:
             return {
                 ...state,
-                users: action.payload,
+                users: action.payload.users,
                 loading: "",
                 msg: "get users successfully",
                 error: null
@@ -47,20 +47,21 @@ export default (state = INITIAL_STATE, action) => {
         case groupActionTypes.CREATE_GROUP_SUCCESS:
             return {
                 ...state,
-                groups: state.groups.concat(action.payload),
+                groups: state.groups.concat(action.payload.group),
                 loading: "",
-                msg: "create new successfully",
+                msg: "Create group successfully",
                 error: null
             };
         case groupActionTypes.DELETE_GROUP_START:
             return {
                 ...state,
-                loading: "delete"
+                loading: "deleting"
             };
         case groupActionTypes.DELETE_GROUP_SUCCESS:
             return {
                 ...state,
-                groups: state.groups.filter(group => group.id !== action.payload.id),
+                groups: state.groups.filter(group => group.id !== action.payload.group.id),
+                messages: [],
                 msg: action.payload.msg,
                 loading: "",
                 error: null
@@ -74,9 +75,9 @@ export default (state = INITIAL_STATE, action) => {
         case groupActionTypes.ADD_USER_SUCCESS:
             return {
                 ...state,
-                users: state.users.concat(action.payload),
+                users: state.users.concat(action.payload.user),
                 loading: "",
-                msg: "add new successfully",
+                msg: "Add user successfully",
                 error: null
             };
         case groupActionTypes.ADD_USER_FAILURE:
@@ -88,16 +89,17 @@ export default (state = INITIAL_STATE, action) => {
         case groupActionTypes.GET_MESSAGES_OF_GROUP_START:
             return {
                 ...state,
-                msg: "loading messages",
-                messages: action.payload.listIndex === -15 ? [] : state.messages
+                loading: "loading messages",
+                messages: action.payload.skip === 0 ? [] : state.messages
             };
         case groupActionTypes.GET_MESSAGES_OF_GROUP_SUCCESS:
             return {
                 ...state,
+                loading: '',
                 messages: action.payload.messages.concat(state.messages),
-                index: action.payload.index,
+                msg: state.skip === 0 ? "first time load messages" : "next load messages",
+                skip: action.payload.messages.length ? state.skip + 15 : 0,
                 error: null,
-                msg: action.payload.lastIndex === -15 ? "first load" : "next load"
             };
         case groupActionTypes.ADD_NEW_MESSAGE_START:
             return {
@@ -107,15 +109,9 @@ export default (state = INITIAL_STATE, action) => {
         case groupActionTypes.ADD_NEW_MESSAGE_SUCCESS:
             return {
                 ...state,
-                msg: 'added to store',
+                msg: 'added messages',
                 messages: state.messages.concat(action.payload),
                 error: null
-            };
-        case groupActionTypes.ADD_MESSAGE_TO_STORE:
-            return {
-                ...state,
-                messages: state.messages.concat(action.payload),
-                msg: "added to store"
             };
         default:
             return state;

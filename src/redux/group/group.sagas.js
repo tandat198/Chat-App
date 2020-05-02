@@ -1,68 +1,59 @@
 import { takeEvery, takeLatest, call, put, fork, all, take, apply } from "redux-saga/effects";
 import { eventChannel } from 'redux-saga'
-import io from 'socket.io-client';
 import groupActionTypes from "./group.types";
 import api from "../../api";
 import {
     createGroupSuccess,
     getGroupSuccess,
-    getGroupsFailure,
     deleteGroupSuccess,
     addUserSuccess,
     getUsersInGroupSuccess,
     getMessagesOfGroupSuccess,
-    addUserFailure,
-    addNewMessageSuccess
+    addNewMessageSuccess,
 } from "./group.actions";
+import { signOutStart } from "../user/user.actions";
 
-export function* createGroup({ payload }) {
+const io = require('socket.io-client');
+
+function* checkForbiddenStatus(successFunc, res, successKey) {
+    const dataSendToStore = {};
+    successKey.map(key => res[key] ? dataSendToStore[key] = res[key] : null)
+    if (Object.keys(dataSendToStore).length) {
+        yield put(successFunc(dataSendToStore))
+    } else if (res.status === 403) {
+        yield put(signOutStart())
+    }
+}
+
+function* createGroup({ payload }) {
     const res = yield call(api.post, "/groups", payload);
-
-    if (res.group) {
-        yield put(createGroupSuccess(res.group));
-    }
+    yield call(checkForbiddenStatus, createGroupSuccess, res, ["group"])
 }
 
-export function* getGroups() {
+function* getGroups() {
     const res = yield call(api.get, "/groups");
-    if (res.groups) {
-        yield put(getGroupSuccess(res.groups));
-    } else {
-        yield put(getGroupsFailure(res.error));
-    }
+    yield call(checkForbiddenStatus, getGroupSuccess, res, ["groups"])
 }
 
-export function* getUserInGroup({ payload }) {
+function* getUsersInGroup({ payload }) {
     const res = yield call(api.get, `/groups/${payload}/getUsers`);
-    if (res.users) {
-        yield put(getUsersInGroupSuccess(res.users));
-    }
+    yield call(checkForbiddenStatus, getUsersInGroupSuccess, res, ["users"])
 }
 
-export function* deleteGroup({ payload }) {
-    try {
-        const { group, message } = yield call(api.delete, `/groups/${payload}`);
-        yield put(deleteGroupSuccess(group.id, message));
-    } catch (err) {
-        console.log(err);
-    }
+function* deleteGroup({ payload }) {
+    const res = yield call(api.delete, `/groups/${payload}`);
+    yield call(checkForbiddenStatus, deleteGroupSuccess, res, ["group", "message"])
 }
 
-export function* addUser({ payload }) {
+function* addUser({ payload }) {
     const res = yield call(api.post, "/groups/addUser", payload);
-    if (res.user) yield put(addUserSuccess(res.user));
-    yield put(addUserFailure(res.error));
+    yield call(checkForbiddenStatus, addUserSuccess, res, ["user"])
 }
 
-export function* getMessagesOfGroup({ payload: { listIndex, groupId } }) {
-    try {
-        if (listIndex) {
-            const { messages, index } = yield call(api.get, `/groupMessages/?groupId=${groupId}&index=${listIndex}`);
-            yield put(getMessagesOfGroupSuccess(messages, index, listIndex));
-        }
-    } catch (err) {
-        console.log(err);
-    }
+function* getMessagesOfGroup({ payload: { skip, groupId } }) {
+    const limit = 15;
+    const res = yield call(api.get, `/groupMessages/?groupId=${groupId}&limit=${limit}&skip=${skip}`);
+    yield call(checkForbiddenStatus, getMessagesOfGroupSuccess, res, ["messages"])
 }
 
 function createWebSocketConnection() {
@@ -128,29 +119,31 @@ function* webSocketFlow() {
     yield fork(onSendMsg, socket)
 }
 
-export function* onGetGroup() {
+function* onGetGroup() {
     yield takeLatest(groupActionTypes.GET_GROUPS_START, getGroups);
 }
 
-export function* onGetUsersInGroup() {
-    yield takeEvery(groupActionTypes.GET_USERS_IN_GROUP_START, getUserInGroup);
+function* onGetUsersInGroup() {
+    yield takeEvery(groupActionTypes.GET_USERS_IN_GROUP_START, getUsersInGroup);
 }
 
-export function* onGetMessagesOfGroup() {
+function* onGetMessagesOfGroup() {
     yield takeLatest(groupActionTypes.GET_MESSAGES_OF_GROUP_START, getMessagesOfGroup);
 }
 
-export function* onCreateGroup() {
+function* onCreateGroup() {
     yield takeLatest(groupActionTypes.CREATE_GROUP_START, createGroup);
 }
 
-export function* onDeleteGroup() {
+function* onDeleteGroup() {
     yield takeLatest(groupActionTypes.DELETE_GROUP_START, deleteGroup);
 }
 
-export function* onAddUser() {
+function* onAddUser() {
     yield takeLatest(groupActionTypes.ADD_USER_START, addUser);
 }
+
+
 
 export function* groupSagas() {
     yield all([

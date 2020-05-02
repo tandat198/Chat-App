@@ -53,7 +53,7 @@ class FormModal extends PureComponent {
         return (
             <div className='modal'>
                 <div className='modal-content'>
-                    <form onSubmit={onSubmit}>
+                    <form>
                         {field === "group" ? (
                             <label htmlFor='group-name'>Group Name</label>
                         ) : (
@@ -79,7 +79,7 @@ class FormModal extends PureComponent {
                             <button onClick={toggleModal} type='button' value='cancel'>
                                 Cancel
                             </button>
-                            <button disabled={loading && true} type='submit' value='submit'>
+                            <button onClick={onSubmit} disabled={loading && true} type='submit' value='submit'>
                                 {field === "group" ? "Create" : "Add"}
                             </button>
                         </div>

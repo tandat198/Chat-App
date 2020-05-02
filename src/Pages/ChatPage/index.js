@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { deleteGroupStart, getUsersInGroupStart, getMessagesOfGroupStart, addMsgToStore, joinRoomStart } from "../../redux/group/group.actions";
+import { deleteGroupStart, getUsersInGroupStart, getMessagesOfGroupStart, joinRoomStart } from "../../redux/group/group.actions";
 import ChatBox from "../../Components/ChatBox";
 import FormModal from "../../Components/FormModal";
 import ListModal from "../../Components/ListModal";
@@ -15,8 +15,8 @@ import { signOutStart } from "../../redux/user/user.actions";
 import { addNewMessageStart } from '../../redux/group/group.actions'
 import Sidebar from "../../Components/Sidebar";
 import LoadingHOC from "../../Components/LoadingHOC";
-import "./style.scss";
 import LoadingSpinner from "../../Components/LoadingSpinner";
+import "./style.scss";
 
 class ChatPage extends React.PureComponent {
     constructor(props) {
@@ -31,13 +31,8 @@ class ChatPage extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
-
-    }
-
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.msg !== prevState.msg) return { msg: nextProps.msg };
-        if (!nextProps.isAuthenticated) return { isAuthenticated: false };
         return null;
     }
 
@@ -50,13 +45,13 @@ class ChatPage extends React.PureComponent {
                         msg: ""
                     });
                     break;
-                case "add new successfully":
+                case "Add user successfully":
                     this.setState({
                         openAddUserModal: false,
                         msg: ""
                     });
                     break;
-                case "create new successfully":
+                case "Create group successfully":
                     this.setState({
                         openCreateGroupModal: false,
                         msg: ""
@@ -91,7 +86,7 @@ class ChatPage extends React.PureComponent {
         const setActive = group => {
             this.setState({ groupActive: group, isChanged: true });
             if (group.id && group.id !== groupActive.id) {
-                getMessagesReq(group.id, -15);
+                getMessagesReq(group.id, 0);
                 this.props.joinRoom(group)
             }
         };
@@ -193,16 +188,14 @@ const mapStateToProps = state => ({
     users: state.group.users,
     loading: state.group.loading,
     msg: state.group.msg,
-    index: state.group.index,
     isAuthenticated: state.user.isAuthenticated
 });
 
 const mapDispatchToProps = dispatch => ({
-    getMessagesReq: (groupId, index) => dispatch(getMessagesOfGroupStart(groupId, index)),
+    getMessagesReq: (groupId, skip) => dispatch(getMessagesOfGroupStart(groupId, skip)),
     deleteGroupReq: id => dispatch(deleteGroupStart(id)),
     getUsersReq: id => dispatch(getUsersInGroupStart(id)),
     signOutReq: () => dispatch(signOutStart()),
-    addNewMsgToStore: msg => dispatch(addMsgToStore(msg)),
     joinRoom: (room) => dispatch(joinRoomStart(room)),
     addMsg: (user, room, msg) => dispatch(addNewMessageStart(user, room, msg))
 });
