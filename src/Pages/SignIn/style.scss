@@ -46,7 +46,7 @@ $color-black: #000;
                 input {
                     outline: none;
                     &:focus {
-                        border: 3px solid $color-primary-dark;
+                        border: 1px solid $color-primary-dark;
                     }
                 }
             }
@@ -90,6 +90,7 @@ $color-black: #000;
                 padding: 0;
                 border-radius: 18px;
                 border-style: none;
+                outline: none;
                 cursor: pointer;
                 &:hover {
                     background: rgb(255, 195, 85);
@@ -211,6 +212,7 @@ $color-black: #000;
             padding: 0;
             border-radius: 18px;
             border-style: none;
+            outline: none;
             cursor: pointer;
             &:hover {
                 background: rgb(255, 195, 85);

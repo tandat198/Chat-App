@@ -57,29 +57,31 @@
             display: flex;
             justify-content: space-around;
             height: 18%;
-            button {
+
+            .submit-btn,
+            .cancel-btn {
                 width: 30%;
                 height: 100%;
                 font-size: 1.6rem;
                 border-radius: 3px;
+            }
 
-                &[type="submit"] {
-                    background: #0282d9;
-                    color: #fff;
-                    border: 1px solid #fff;
-                    &:hover {
-                        background: #fff;
-                        color: #0282d9;
-                        border-color: #0282d9;
-                    }
-                }
-
-                &[type="button"] {
-                    border: 1px solid #6b6b6b;
+            .submit-btn {
+                background: #0282d9;
+                color: #fff;
+                border: 1px solid #fff;
+                &:hover {
                     background: #fff;
-                    &:hover {
-                        background: #d4d3d3;
-                    }
+                    color: #0282d9;
+                    border-color: #0282d9;
+                }
+            }
+
+            .cancel-btn {
+                border: 1px solid #6b6b6b;
+                background: #fff;
+                &:hover {
+                    background: #d4d3d3;
                 }
             }
         }

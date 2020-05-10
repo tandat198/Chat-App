@@ -1,65 +1,58 @@
 import { takeEvery, takeLatest, call, put, fork, all, take, apply } from "redux-saga/effects";
-import { eventChannel } from 'redux-saga'
+import { eventChannel } from "redux-saga";
 import groupActionTypes from "./group.types";
 import api from "../../api";
-import {
-    createGroupSuccess,
-    getGroupSuccess,
-    deleteGroupSuccess,
-    addUserSuccess,
-    getUsersInGroupSuccess,
-    getMessagesOfGroupSuccess,
-    addNewMessageSuccess,
-} from "./group.actions";
+import { createGroupSuccess, getGroupSuccess, deleteGroupSuccess, addUserSuccess, getUsersInGroupSuccess, getMessagesOfGroupSuccess, addNewMessageSuccess } from "./group.actions";
 import { signOutStart } from "../user/user.actions";
 
-const io = require('socket.io-client');
-
+const io = require("socket.io-client");
+const apiUrl = "http://localhost:5000";
+//https://chat-app-datng.herokuapp.com
 function* checkForbiddenStatus(successFunc, res, successKey) {
     const dataSendToStore = {};
-    successKey.map(key => res[key] ? dataSendToStore[key] = res[key] : null)
+    successKey.map(key => (res[key] ? (dataSendToStore[key] = res[key]) : null));
     if (Object.keys(dataSendToStore).length) {
-        yield put(successFunc(dataSendToStore))
+        yield put(successFunc(dataSendToStore));
     } else if (res.status === 403) {
-        yield put(signOutStart())
+        yield put(signOutStart());
     }
 }
 
 function* createGroup({ payload }) {
     const res = yield call(api.post, "/groups", payload);
-    yield call(checkForbiddenStatus, createGroupSuccess, res, ["group"])
+    yield call(checkForbiddenStatus, createGroupSuccess, res, ["group"]);
 }
 
 function* getGroups() {
     const res = yield call(api.get, "/groups");
-    yield call(checkForbiddenStatus, getGroupSuccess, res, ["groups"])
+    yield call(checkForbiddenStatus, getGroupSuccess, res, ["groups"]);
 }
 
 function* getUsersInGroup({ payload }) {
     const res = yield call(api.get, `/groups/${payload}/getUsers`);
-    yield call(checkForbiddenStatus, getUsersInGroupSuccess, res, ["users"])
+    yield call(checkForbiddenStatus, getUsersInGroupSuccess, res, ["users"]);
 }
 
 function* deleteGroup({ payload }) {
     const res = yield call(api.delete, `/groups/${payload}`);
-    yield call(checkForbiddenStatus, deleteGroupSuccess, res, ["group", "message"])
+    yield call(checkForbiddenStatus, deleteGroupSuccess, res, ["group", "message"]);
 }
 
 function* addUser({ payload }) {
     const res = yield call(api.post, "/groups/addUser", payload);
-    yield call(checkForbiddenStatus, addUserSuccess, res, ["user"])
+    yield call(checkForbiddenStatus, addUserSuccess, res, ["user"]);
 }
 
 function* getMessagesOfGroup({ payload: { skip, groupId } }) {
     const limit = 15;
     const res = yield call(api.get, `/groupMessages/?groupId=${groupId}&limit=${limit}&skip=${skip}`);
-    yield call(checkForbiddenStatus, getMessagesOfGroupSuccess, res, ["messages"])
+    yield call(checkForbiddenStatus, getMessagesOfGroupSuccess, res, ["messages"]);
 }
 
 function createWebSocketConnection() {
-    const socket = io('https://chat-app-datng.herokuapp.com');
+    const socket = io(apiUrl);
     return new Promise(resolve => {
-        socket.on('connect', () => {
+        socket.on("connect", () => {
             resolve(socket);
         });
     });
@@ -68,25 +61,25 @@ function createWebSocketConnection() {
 function createSocketChannel(socket) {
     return eventChannel(emit => {
         const msgHandler = event => {
-            emit(event)
-        }
+            emit(event);
+        };
 
-        socket.on("sendMsgFromServer", msgHandler)
+        socket.on("sendMsgFromServer", msgHandler);
 
         const unsubscribe = () => {
-            socket.off('sendMsgFromServer', msgHandler)
-        }
+            socket.off("sendMsgFromServer", msgHandler);
+        };
 
-        return unsubscribe
-    })
+        return unsubscribe;
+    });
 }
 
 function* sendMsg(socket, { payload }) {
-    yield apply(socket, socket.emit, ['room', payload])
+    yield apply(socket, socket.emit, ["room", payload]);
 }
 
 function* joinRoom(socket, { payload }) {
-    yield apply(socket, socket.emit, ["joinRoom", payload])
+    yield apply(socket, socket.emit, ["joinRoom", payload]);
 }
 
 export function* watchOnMsg(socket) {
@@ -94,29 +87,27 @@ export function* watchOnMsg(socket) {
 
     while (true) {
         try {
-            const payload = yield take(socketChannel)
+            const payload = yield take(socketChannel);
             if (payload.senderId) {
-                yield put(addNewMessageSuccess(payload))
+                yield put(addNewMessageSuccess(payload));
             }
-        } catch (error) {
-
-        }
+        } catch (error) {}
     }
 }
 
 function* onSendMsg(socket) {
-    yield takeEvery(groupActionTypes.ADD_NEW_MESSAGE_START, sendMsg, socket)
+    yield takeEvery(groupActionTypes.ADD_NEW_MESSAGE_START, sendMsg, socket);
 }
 
 function* onJoinRoom(socket) {
-    yield takeLatest(groupActionTypes.JOIN_ROOM_START, joinRoom, socket)
+    yield takeLatest(groupActionTypes.JOIN_ROOM_START, joinRoom, socket);
 }
 
 function* webSocketFlow() {
     const socket = yield call(createWebSocketConnection);
-    yield fork(onJoinRoom, socket)
-    yield fork(watchOnMsg, socket)
-    yield fork(onSendMsg, socket)
+    yield fork(onJoinRoom, socket);
+    yield fork(watchOnMsg, socket);
+    yield fork(onSendMsg, socket);
 }
 
 function* onGetGroup() {
@@ -143,16 +134,6 @@ function* onAddUser() {
     yield takeLatest(groupActionTypes.ADD_USER_START, addUser);
 }
 
-
-
 export function* groupSagas() {
-    yield all([
-        fork(onGetGroup),
-        fork(onGetUsersInGroup),
-        fork(onGetMessagesOfGroup),
-        fork(onCreateGroup),
-        fork(onDeleteGroup),
-        fork(onAddUser),
-        fork(webSocketFlow)
-    ]);
+    yield all([fork(onGetGroup), fork(onGetUsersInGroup), fork(onGetMessagesOfGroup), fork(onCreateGroup), fork(onDeleteGroup), fork(onAddUser), fork(webSocketFlow)]);
 }

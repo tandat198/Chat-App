@@ -22,7 +22,7 @@ class FormModal extends PureComponent {
 
     render() {
         const { inputValue, optionValue, error } = this.state;
-        const { createGroup, addUser, loading, toggleModal, field, groupActiveId, select } = this.props;
+        const { createGroup, addUser, loading, toggleModal, field, groupActiveId } = this.props;
 
         const onSubmit = e => {
             e.preventDefault();
@@ -53,33 +53,27 @@ class FormModal extends PureComponent {
         return (
             <div className='modal'>
                 <div className='modal-content'>
-                    <form>
+                    <form onSubmit={e => e.preventDefault()}>
                         {field === "group" ? (
                             <label htmlFor='group-name'>Group Name</label>
                         ) : (
-                                <div className='select-wrapper'>
-                                    <span>Search for</span>
-                                    <select onChange={setOption}>
-                                        <option value='email'>Email</option>
-                                        <option value='name'>Name</option>
-                                    </select>
-                                </div>
-                            )}
+                            <div className='select-wrapper'>
+                                <span>Search for</span>
+                                <select onChange={setOption}>
+                                    <option value='email'>Email</option>
+                                    <option value='name'>Name</option>
+                                </select>
+                            </div>
+                        )}
                         <div className='input-control'>
-                            <input
-                                onChange={setValue}
-                                name='inputValue'
-                                type='text'
-                                placeholder={`Enter ${field === "group" ? "group name" : `user's ${optionValue}`}`}
-                                id='group-name'
-                            />
+                            <input onChange={setValue} name='inputValue' type='text' placeholder={`Enter ${field === "group" ? "group name" : `user's ${optionValue}`}`} id='group-name' />
                             {error && <span className='error'>{error}</span>}
                         </div>
                         <div className='btn-wrapper'>
-                            <button onClick={toggleModal} type='button' value='cancel'>
+                            <button className='cancel-btn' onClick={toggleModal} type='button'>
                                 Cancel
                             </button>
-                            <button onClick={onSubmit} disabled={loading && true} type='submit' value='submit'>
+                            <button className='submit-btn' onClick={onSubmit} disabled={loading} type='button'>
                                 {field === "group" ? "Create" : "Add"}
                             </button>
                         </div>

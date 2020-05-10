@@ -17,19 +17,39 @@
         border-radius: 2.5rem;
         padding: 0.5rem 1.2rem;
         color: #fff;
+        display: flex;
+        flex-direction: column;
+
         &:not(:last-child) {
             margin-bottom: 2.5%;
         }
-    }
-    .blue {
-        align-self: flex-end;
-        background: #348cff;
-        color: #fff;
-    }
-    .gray {
-        align-self: flex-start;
-        background: rgb(192, 192, 192);
-        color: #000;
+
+        &.owner {
+            align-self: flex-end;
+        }
+
+        .text {
+            display: inline-block;
+            padding: 0.5rem 1.8rem;
+            border-radius: 3rem;
+        }
+
+        .sender {
+            color: rgb(155, 151, 151);
+            margin-bottom: 1rem;
+        }
+
+        .blue {
+            align-self: flex-end;
+            background: #348cff;
+            color: #fff;
+        }
+
+        .gray {
+            align-self: flex-start;
+            background: rgb(192, 192, 192);
+            color: #000;
+        }
     }
 }
 
