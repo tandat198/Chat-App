@@ -6,8 +6,8 @@ import { createGroupSuccess, getGroupSuccess, deleteGroupSuccess, addUserSuccess
 import { signOutStart } from "../user/user.actions";
 
 const io = require("socket.io-client");
-const apiUrl = "http://localhost:5000";
-//https://chat-app-datng.herokuapp.com
+const apiUrl = "https://chat-app-datng.herokuapp.com";
+
 function* checkForbiddenStatus(successFunc, res, successKey) {
     const dataSendToStore = {};
     successKey.map(key => (res[key] ? (dataSendToStore[key] = res[key]) : null));
