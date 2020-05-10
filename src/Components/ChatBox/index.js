@@ -16,8 +16,6 @@ const ChatBox = ({ groupId }) => {
 
     const scrollToBottom = () => {
         const chatBox = chatBoxRef.current;
-        console.log(chatBox.scrollTop);
-        console.log(chatBox.scrollHeight);
         if (msg === "added messages" || msg === "first time load messages") {
             chatBox.scrollTop = chatBox.scrollHeight;
         } else if (msg === "next load messages") {
