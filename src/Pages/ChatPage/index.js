@@ -4,18 +4,18 @@ import { connect } from "react-redux";
 import { deleteGroupStart, getUsersInGroupStart, getMessagesOfGroupStart, joinRoomStart } from "../../redux/group/group.actions";
 import ChatBox from "../../Components/ChatBox";
 import FormModal from "../../Components/FormModal";
+import Sidebar from "../../Components/Sidebar";
+import LoadingHOC from "../../Components/LoadingHOC";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 import ListModal from "../../Components/ListModal";
+import { signOutStart } from "../../redux/user/user.actions";
+import { addNewMessageStart } from "../../redux/group/group.actions";
 import more from "../../assets/icons/more.svg";
 import user from "../../assets/icons/user.svg";
 import group from "../../assets/icons/group.svg";
 import gear from "../../assets/icons/gear.svg";
 import logout from "../../assets/icons/logout.svg";
 import paperPlane from "../../assets/icons/paper-plane.svg";
-import { signOutStart } from "../../redux/user/user.actions";
-import { addNewMessageStart } from '../../redux/group/group.actions'
-import Sidebar from "../../Components/Sidebar";
-import LoadingHOC from "../../Components/LoadingHOC";
-import LoadingSpinner from "../../Components/LoadingSpinner";
 import "./style.scss";
 
 class ChatPage extends React.PureComponent {
@@ -87,7 +87,7 @@ class ChatPage extends React.PureComponent {
             this.setState({ groupActive: group, isChanged: true });
             if (group.id && group.id !== groupActive.id) {
                 getMessagesReq(group.id, 0);
-                this.props.joinRoom(group)
+                this.props.joinRoom(group);
             }
         };
 
@@ -110,7 +110,7 @@ class ChatPage extends React.PureComponent {
 
         const sendMsg = async e => {
             e.preventDefault();
-            this.props.addMsg(currentUser, groupActive, e.target.firstChild.value)
+            this.props.addMsg(currentUser, groupActive, e.target.firstChild.value);
             e.target.firstChild.value = null;
         };
 
@@ -196,7 +196,7 @@ const mapDispatchToProps = dispatch => ({
     deleteGroupReq: id => dispatch(deleteGroupStart(id)),
     getUsersReq: id => dispatch(getUsersInGroupStart(id)),
     signOutReq: () => dispatch(signOutStart()),
-    joinRoom: (room) => dispatch(joinRoomStart(room)),
+    joinRoom: room => dispatch(joinRoomStart(room)),
     addMsg: (user, room, msg) => dispatch(addNewMessageStart(user, room, msg))
 });
 
