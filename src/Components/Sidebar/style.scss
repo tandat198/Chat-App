@@ -1,5 +1,5 @@
 .side-bar {
-    animation: moveLeftToRight 0.5s;
+    animation: moveLeftToRight 0.2s;
     width: 20%;
     height: 100%;
     background: #071e3d;
@@ -10,13 +10,13 @@
     }
 
     .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 10;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255,255,255,0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
     }
 
     .side-bar-content {
@@ -97,11 +97,11 @@
         .tooltip {
             position: relative;
             display: inline-block;
-        
+
             &:hover .tooltiptext {
                 visibility: visible;
             }
-        
+
             .tooltiptext {
                 box-sizing: border-box;
                 font-size: 1.6rem;
