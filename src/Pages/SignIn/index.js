@@ -51,33 +51,16 @@ const SignIn = props => {
                         <div className='form-item'>
                             <label htmlFor='email'>Email</label>
                             <div className='control-input'>
-                                <input
-                                    defaultValue='tandat198@gmail.com'
-                                    placeholder='Enter your email'
-                                    type='email'
-                                    ref={email}
-                                    name='email'
-                                    id='email'
-                                    className='input'
-                                />
+                                <input defaultValue='tandat198@gmail.com' placeholder='Enter your email' type='email' ref={email} name='email' id='email' className='input' />
                             </div>
-                            <span className='msg'>{error.includes('does not exist') && 'Email does not exist'}</span>
+                            <span className='msg'>{error.includes("does not exist") && "Email does not exist"}</span>
                         </div>
                         <div className='form-item'>
                             <label htmlFor='password'>Password</label>
                             <div className='control-input'>
-                                <input
-                                    defaultValue='12345678'
-                                    placeholder='Enter your password'
-                                    type='password'
-                                    ref={password}
-                                    name='password'
-                                    id='password'
-                                    className='input'
-                                    autoComplete='on'
-                                />
+                                <input defaultValue='12345678' placeholder='Enter your password' type='password' ref={password} name='password' id='password' className='input' autoComplete='on' />
                             </div>
-                            <span className='msg'>{error.includes('does not match') && 'Wrong Password'}</span>
+                            <span className='msg'>{error.includes("does not match") && "Wrong Password"}</span>
                         </div>
                         <input className='submit-btn' type='submit' value='Sign In' />
                     </form>
@@ -87,7 +70,7 @@ const SignIn = props => {
                 </div>
             </div>
 
-            {msg === "logging in" && <LoadingSpinner width="220px" height="220px" />}
+            {msg === "logging in" && <LoadingSpinner />}
             {displayForm && (
                 <div className='signup'>
                     <div className='signup-container'>
@@ -111,27 +94,13 @@ const SignIn = props => {
                             <div className='form-item'>
                                 <label htmlFor='password-signup'>Password</label>
                                 <div className='control-input'>
-                                    <input
-                                        placeholder='Enter your password'
-                                        type='password'
-                                        ref={passwordSignUp}
-                                        id='password-signup'
-                                        className='input'
-                                        autoComplete='off'
-                                    />
+                                    <input placeholder='Enter your password' type='password' ref={passwordSignUp} id='password-signup' className='input' autoComplete='off' />
                                 </div>
                             </div>
                             <div className='form-item'>
                                 <label htmlFor='password2-signup'>Confirm Password</label>
                                 <div className='control-input'>
-                                    <input
-                                        placeholder='Confirm Your Password'
-                                        type='password'
-                                        ref={confirmPassword}
-                                        id='password2-signup'
-                                        className='input'
-                                        autoComplete='off'
-                                    />
+                                    <input placeholder='Confirm Your Password' type='password' ref={confirmPassword} id='password2-signup' className='input' autoComplete='off' />
                                 </div>
                             </div>
                             <div className='form-item'>
