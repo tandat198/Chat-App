@@ -69,7 +69,6 @@ const SignIn = props => {
                     </div>
                 </div>
             </div>
-
             {msg === "logging in" && <LoadingSpinner />}
             {displayForm && (
                 <div className='signup'>
