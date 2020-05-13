@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { getGroupsStart } from "../../redux/group/group.actions";
-import spinner from "../../assets/icons/spinner.svg";
+import LoadingSpinner from "../LoadingSpinner";
 
 export const LoadingHOC = (WrappedComponent, data) => {
     class LoadIndicator extends PureComponent {
@@ -15,7 +15,7 @@ export const LoadingHOC = (WrappedComponent, data) => {
             }
         }
         render() {
-            return this.props.loading === "main" ? <img className='main-loading' alt='Loading...' src={spinner} /> : <WrappedComponent {...this.props} />;
+            return this.props.loading === "main" ? <LoadingSpinner /> : <WrappedComponent {...this.props} />;
         }
     }
 
