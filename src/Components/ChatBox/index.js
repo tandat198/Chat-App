@@ -5,14 +5,14 @@ import LoadingSpinner from "../LoadingSpinner";
 import "./style.scss";
 
 const ChatBox = ({ groupId }) => {
-    const messages = useSelector(state => state.group.messages);
-    const msg = useSelector(state => state.group.msg);
-    const loading = useSelector(state => state.group.loading);
-    const skip = useSelector(state => state.group.skip);
+    const dispatch = useDispatch();
+    const messages = useSelector((state) => state.group.messages);
+    const msg = useSelector((state) => state.group.msg);
+    const loading = useSelector((state) => state.group.loading);
+    const skip = useSelector((state) => state.group.skip);
     const chatBoxRef = useRef(null);
     const [lastScrollHeight, setLastScrollHeight] = useState(0);
-    const dispatch = useDispatch();
-    const currentUser = useSelector(state => state.user.currentUser);
+    const currentUser = useSelector((state) => state.user.currentUser);
 
     const scrollToBottom = () => {
         const chatBox = chatBoxRef.current;
@@ -36,7 +36,7 @@ const ChatBox = ({ groupId }) => {
             {loading === "loading messages" && <LoadingSpinner width='200px' height='200px' />}
 
             <ul ref={chatBoxRef} onScroll={onScroll} id='chat-box' className={`messages-container ${messages.length < 8 && "flex-end"}`}>
-                {messages.map(message => (
+                {messages.map((message) => (
                     <li className={`${currentUser.id === message.senderId ? "owner" : undefined}`} key={message._id}>
                         <span className='sender'>{message.senderName}</span>
                         <span className={`${currentUser.id === message.senderId ? "blue" : "gray"} text`}>{message.text}</span>

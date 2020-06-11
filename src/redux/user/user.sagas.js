@@ -1,6 +1,6 @@
 import { takeLatest, put, all, call, fork } from "redux-saga/effects";
 import userActionTypes from "./user.types";
-import { signInSuccess, signInFailure, signUpSuccess, signOutSuccess, uploadProfileSuccess, uploadCoverSuccess } from "./user.actions";
+import { signInSuccess, signInFailure, signUpSuccess, signUpFailure, signOutSuccess, uploadProfileSuccess, uploadCoverSuccess } from "./user.actions";
 import api from "../../api";
 
 export function* signIn({ payload }) {
@@ -10,9 +10,9 @@ export function* signIn({ payload }) {
         localStorage.setItem("token", token);
         yield put(signInSuccess(user));
     } else {
-        yield put(signInFailure(res.error))
+        console.log(res);
+        yield put(signInFailure(res.data.error));
     }
-
 }
 
 export function* signUp({ payload }) {
@@ -22,7 +22,7 @@ export function* signUp({ payload }) {
         localStorage.setItem("token", token);
         yield put(signUpSuccess(user));
     } else {
-        yield put(signInFailure(res.error));
+        yield put(signUpFailure(res.data));
     }
 }
 
@@ -33,30 +33,30 @@ export function* signout() {
 
 export function* uploadProfile({ payload }) {
     const formData = new FormData();
-    formData.append('profile', payload)
-    const resAfterUpload = yield call(api.post, "users/upload", formData, 'formData');
-    const { linkUrl } = resAfterUpload
+    formData.append("profile", payload);
+    const resAfterUpload = yield call(api.post, "users/upload", formData, "formData");
+    const { linkUrl } = resAfterUpload;
 
     if (linkUrl) {
-        const res = yield call(api.post, 'users/updateProfilePhoto', { linkUrl })
+        const res = yield call(api.post, "users/updateProfilePhoto", { linkUrl });
         const profileUrl = res.linkUrl;
         if (profileUrl) {
-            yield put(uploadProfileSuccess(profileUrl))
+            yield put(uploadProfileSuccess(profileUrl));
         }
     }
 }
 
 export function* uploadCover({ payload }) {
     const formData = new FormData();
-    formData.append('profile', payload)
-    const resAfterUpload = yield call(api.post, "users/upload", formData, 'formData');
-    const { linkUrl } = resAfterUpload
+    formData.append("profile", payload);
+    const resAfterUpload = yield call(api.post, "users/upload", formData, "formData");
+    const { linkUrl } = resAfterUpload;
 
     if (linkUrl) {
-        const res = yield call(api.post, 'users/updateCoverPhoto', { linkUrl })
+        const res = yield call(api.post, "users/updateCoverPhoto", { linkUrl });
         const coverUrl = res.linkUrl;
         if (coverUrl) {
-            yield put(uploadCoverSuccess(coverUrl))
+            yield put(uploadCoverSuccess(coverUrl));
         }
     }
 }

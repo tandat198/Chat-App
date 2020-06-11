@@ -27,7 +27,7 @@ class ChatPage extends React.PureComponent {
             openUserListModal: false,
             openOption: false,
             isChanged: true,
-            groupActive: {}
+            groupActive: {},
         };
     }
 
@@ -35,26 +35,25 @@ class ChatPage extends React.PureComponent {
         if (nextProps.msg !== prevState.msg) return { msg: nextProps.msg };
         return null;
     }
-
     componentDidUpdate(prevProps, prevState) {
         if (this.state.msg !== prevState.msg) {
             switch (this.state.msg) {
                 case "Delete group successfully":
                     this.setState({
                         groupActive: {},
-                        msg: ""
+                        msg: "",
                     });
                     break;
                 case "Add user successfully":
                     this.setState({
                         openAddUserModal: false,
-                        msg: ""
+                        msg: "",
                     });
                     break;
                 case "Create group successfully":
                     this.setState({
                         openCreateGroupModal: false,
-                        msg: ""
+                        msg: "",
                     });
                     break;
                 default:
@@ -63,56 +62,63 @@ class ChatPage extends React.PureComponent {
         }
     }
 
-    render() {
-        const { openCreateGroupModal, openAddUserModal, openUserListModal, groupActive, openOption, isChanged } = this.state;
-        const { loading, users, getUsersReq, getMessagesReq, signOutReq, currentUser } = this.props;
+    toggleGroupModal = () => {
+        this.setState((state) => ({ openCreateGroupModal: !state.openCreateGroupModal }));
+    };
 
-        const toggleGroupModal = () => {
-            this.setState(state => ({ openCreateGroupModal: !state.openCreateGroupModal }));
-        };
+    toggleUserModal = () => {
+        this.setState((state) => ({ openAddUserModal: !state.openAddUserModal }));
+    };
 
-        const toggleUserModal = () => {
-            this.setState(state => ({ openAddUserModal: !state.openAddUserModal }));
-        };
+    toggleUserListModal = () => {
+        this.setState((state) => ({ openUserListModal: !state.openUserListModal }));
+    };
 
-        const toggleUserListModal = () => {
-            this.setState(state => ({ openUserListModal: !state.openUserListModal }));
-        };
+    toggleOption = () => {
+        this.setState((state) => ({ openOption: !state.openOption }));
+    };
 
-        const toggleOption = () => {
-            this.setState(state => ({ openOption: !state.openOption }));
-        };
+    setActive = (group) => {
+        const { groupActive } = this.state;
+        const { getMessagesReq } = this.props;
+        this.setState({ groupActive: group, isChanged: true });
+        if (group.id && group.id !== groupActive.id) {
+            getMessagesReq(group.id, 0);
+            this.props.joinRoom(group);
+        }
+    };
 
-        const setActive = group => {
-            this.setState({ groupActive: group, isChanged: true });
-            if (group.id && group.id !== groupActive.id) {
-                getMessagesReq(group.id, 0);
-                this.props.joinRoom(group);
-            }
-        };
+    signOut = () => {
+        const { signOutReq } = this.props;
+        this.props.history.push("/signin");
+        signOutReq();
+    };
 
-        const signOut = () => {
-            this.props.history.push("/signin");
-            signOutReq();
-        };
-
-        const getUsers = () => {
-            if (users.length === 0 || isChanged) {
-                getUsersReq(groupActive.id);
-                this.setState({
-                    isChanged: false
-                });
-            }
+    getUsers = () => {
+        const { isChanged, groupActive } = this.state;
+        const { users, getUsersReq } = this.props;
+        if (users.length === 0 || isChanged) {
+            getUsersReq(groupActive.id);
             this.setState({
-                openUserListModal: true
+                isChanged: false,
             });
-        };
+        }
+        this.setState({
+            openUserListModal: true,
+        });
+    };
 
-        const sendMsg = async e => {
-            e.preventDefault();
-            this.props.addMsg(currentUser, groupActive, e.target.firstChild.value);
-            e.target.firstChild.value = null;
-        };
+    sendMsg = async (e) => {
+        e.preventDefault();
+        const { groupActive } = this.state;
+        const { currentUser } = this.props;
+        this.props.addMsg(currentUser, groupActive, e.target.firstChild.value);
+        e.target.firstChild.value = null;
+    };
+
+    render() {
+        const { openCreateGroupModal, openAddUserModal, openUserListModal, groupActive, openOption } = this.state;
+        const { loading } = this.props;
 
         return (
             <React.Fragment>
@@ -123,23 +129,23 @@ class ChatPage extends React.PureComponent {
                         </div>
                     )}
 
-                    <Sidebar groupActive={groupActive} setActive={setActive} toggleGroupModal={toggleGroupModal} />
+                    <Sidebar groupActive={groupActive} setActive={this.setActive} toggleGroupModal={this.toggleGroupModal} />
                     <div className='chat-container'>
                         <div className='top-chat'>
                             <div className='group-name'>{groupActive.name}</div>
                             <div className='option-wrapper'>
-                                <img onClick={toggleOption} className={`three-dot ${openOption && "active"}`} src={more} alt='More' />
+                                <img onClick={this.toggleOption} className={`three-dot ${openOption && "active"}`} src={more} alt='More' />
                                 {openOption && (
                                     <div className='option'>
                                         {groupActive.id && (
                                             <>
-                                                <button onClick={toggleUserModal} type='button'>
+                                                <button onClick={this.toggleUserModal} type='button'>
                                                     <span>Add New User</span>
                                                     <span>
                                                         <img src={user} alt='user' />
                                                     </span>
                                                 </button>
-                                                <button onClick={getUsers} type='button'>
+                                                <button onClick={this.getUsers} type='button'>
                                                     <span>Users In Group</span>
                                                     <span>
                                                         <img src={group} alt='people' />
@@ -153,7 +159,7 @@ class ChatPage extends React.PureComponent {
                                                 <img src={gear} alt='setting' />
                                             </span>
                                         </button>
-                                        <button onClick={signOut} type='button'>
+                                        <button onClick={this.signOut} type='button'>
                                             <span>Log Out</span>
                                             <span>
                                                 <img src={logout} alt='logout' />
@@ -165,7 +171,7 @@ class ChatPage extends React.PureComponent {
                         </div>
                         {groupActive.id && <ChatBox groupId={groupActive.id} />}
                         {groupActive.id && (
-                            <form onSubmit={sendMsg} className='chat-bar'>
+                            <form onSubmit={this.sendMsg} className='chat-bar'>
                                 <input autoCorrect='off' autoComplete='off' type='text' name='chatText' id='' placeholder='Enter your message' />
                                 <button type='submit'>
                                     <span>Send</span> <img src={paperPlane} alt='send' />
@@ -174,30 +180,30 @@ class ChatPage extends React.PureComponent {
                         )}
                     </div>
                 </div>
-                {openCreateGroupModal && <FormModal field='group' toggleModal={toggleGroupModal} />}
-                {openAddUserModal && <FormModal groupActiveId={groupActive.id} field='user' select toggleModal={toggleUserModal} />}
-                {openUserListModal && <ListModal toggleModal={toggleUserListModal} />}
+                {openCreateGroupModal && <FormModal field='group' toggleModal={this.toggleGroupModal} />}
+                {openAddUserModal && <FormModal groupActiveId={groupActive.id} field='user' select toggleModal={this.toggleUserModal} />}
+                {openUserListModal && <ListModal toggleModal={this.toggleUserListModal} />}
             </React.Fragment>
         );
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
     groups: state.group.groups,
     users: state.group.users,
     loading: state.group.loading,
     msg: state.group.msg,
-    isAuthenticated: state.user.isAuthenticated
+    isAuthenticated: state.user.isAuthenticated,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     getMessagesReq: (groupId, skip) => dispatch(getMessagesOfGroupStart(groupId, skip)),
-    deleteGroupReq: id => dispatch(deleteGroupStart(id)),
-    getUsersReq: id => dispatch(getUsersInGroupStart(id)),
+    deleteGroupReq: (id) => dispatch(deleteGroupStart(id)),
+    getUsersReq: (id) => dispatch(getUsersInGroupStart(id)),
     signOutReq: () => dispatch(signOutStart()),
-    joinRoom: room => dispatch(joinRoomStart(room)),
-    addMsg: (user, room, msg) => dispatch(addNewMessageStart(user, room, msg))
+    joinRoom: (room) => dispatch(joinRoomStart(room)),
+    addMsg: (user, room, msg) => dispatch(addNewMessageStart(user, room, msg)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoadingHOC(ChatPage, "groups")));
