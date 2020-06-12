@@ -1,21 +1,17 @@
 import axios from "axios";
-export const token = localStorage.getItem("token");
-const apiUrl = "https://chat-app-datng.herokuapp.com";
-
-export const api = axios.create({
+export const apiUrl = "https://chat-app-datng.herokuapp.com";
+const api = axios.create({
     baseURL: `${apiUrl}/api`,
-    headers: {
-        "Content-Type": "application/json",
-    },
 });
 
 api.interceptors.request.use(function (config) {
     const token = localStorage.getItem("token");
     config.headers.token = token ? token : "";
+    config["Content-Type"] = "application/json";
     return config;
 });
 
-const callApi = () => {
+const BaseApi = () => {
     return {
         async get(endpoint) {
             try {
@@ -46,4 +42,4 @@ const callApi = () => {
     };
 };
 
-export default callApi();
+export default BaseApi;

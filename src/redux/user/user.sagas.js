@@ -1,7 +1,9 @@
 import { takeLatest, put, all, call, fork } from "redux-saga/effects";
 import userActionTypes from "./user.types";
 import { signInSuccess, signInFailure, signUpSuccess, signUpFailure, signOutSuccess, uploadProfileSuccess, uploadCoverSuccess } from "./user.actions";
-import api from "../../api";
+import BaseApi from "../../api";
+
+const api = BaseApi();
 
 export function* signIn({ payload }) {
     const res = yield call(api.post, "users/signin", payload);

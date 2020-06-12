@@ -1,16 +1,16 @@
 import { takeEvery, takeLatest, call, put, fork, all, take, apply } from "redux-saga/effects";
 import { eventChannel } from "redux-saga";
 import groupActionTypes from "./group.types";
-import api from "../../api";
 import { createGroupSuccess, getGroupSuccess, deleteGroupSuccess, addUserSuccess, getUsersInGroupSuccess, getMessagesOfGroupSuccess, addNewMessageSuccess } from "./group.actions";
 import { signOutStart } from "../user/user.actions";
+import BaseApi, { apiUrl } from "../../api";
 
 const io = require("socket.io-client");
-const apiUrl = "https://chat-app-datng.herokuapp.com";
+const api = BaseApi();
 
 function* checkForbiddenStatus(successFunc, res, successKey) {
     const dataSendToStore = {};
-    successKey.map(key => (res[key] ? (dataSendToStore[key] = res[key]) : null));
+    successKey.map((key) => (res[key] ? (dataSendToStore[key] = res[key]) : null));
     if (Object.keys(dataSendToStore).length) {
         yield put(successFunc(dataSendToStore));
     } else if (res.status === 403) {
@@ -51,7 +51,7 @@ function* getMessagesOfGroup({ payload: { skip, groupId } }) {
 
 function createWebSocketConnection() {
     const socket = io(apiUrl);
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         socket.on("connect", () => {
             resolve(socket);
         });
@@ -59,8 +59,8 @@ function createWebSocketConnection() {
 }
 
 function createSocketChannel(socket) {
-    return eventChannel(emit => {
-        const msgHandler = event => {
+    return eventChannel((emit) => {
+        const msgHandler = (event) => {
             emit(event);
         };
 
