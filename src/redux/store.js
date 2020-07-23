@@ -6,9 +6,9 @@ import rootReducer from "./root-reducer";
 import rootSaga from "./root-saga";
 
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [sagaMiddleware];
+const middlewares = sagaMiddleware;
 const composeEnhancers = composeWithDevTools({});
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(...middlewares)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(middlewares)));
 
 sagaMiddleware.run(rootSaga);
 
